@@ -11,7 +11,9 @@ const nextConfig = {
     remotePatterns: [
       { protocol: "https", hostname: "i0.wp.com" }, 
       { protocol: "https", hostname: "public-api.wordpress.com" },
+      { protocol: "https", hostname: "nlpharmacymuseum-dbjme.wordpress.com" },
       { protocol: "https", hostname: new URL(apiBase).hostname },
+      { protocol: "https", hostname: "secure.gravatar.com" },
     ],
   },
 };

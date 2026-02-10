@@ -61,6 +61,8 @@ export async function getPosts(params?: Record<string, string | number | boolean
   if (!usp.has("orderby")) usp.set("orderby", "date");
   if (!usp.has("order")) usp.set("order", "desc");
 
+  if (!usp.has("_embed")) usp.set("_embed", "1");
+
   return wpFetch<WPPost[]>(`/posts?${usp.toString()}`);
 }
 
@@ -69,6 +71,12 @@ export async function getPostBySlug(slug: string) {
     `/posts?slug=${encodeURIComponent(slug)}`
   );
   return posts[0] ?? null;
+}
+
+export async function getPostsByCategorySlug(categorySlug: string, perPage = 3) {
+  const cat = await getCategoryBySlug(categorySlug);
+  if (!cat) return [];
+  return getPosts({ categories: cat.id, per_page: perPage });
 }
 
 /**
@@ -97,6 +105,13 @@ export async function getCategoryIdBySlug(slug: string) {
     `/categories?slug=${encodeURIComponent(slug)}`
   );
   return cats[0]?.id ?? null;
+}
+
+export async function getCategoryBySlug(slug: string) {
+  const cats = await wpFetch<WPCategory[]>(
+    `/categories?slug=${encodeURIComponent(slug)}`
+  );
+  return cats[0] ?? null;
 }
 
 /**

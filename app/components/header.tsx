@@ -56,7 +56,7 @@ export default async function Header() {
         <div className="flex items-center gap-2">
           <Link
             href="/visit"
-            className="px-4 py-2 rounded-full bg-black text-white text-sm font-medium hover:opacity-90"
+            className="px-4 py-2 rounded-md bg-black text-white text-sm font-medium hover:opacity-90 hover:shadow-md"
           >
             Plan Your Visit
           </Link>
