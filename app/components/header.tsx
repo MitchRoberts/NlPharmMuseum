@@ -46,7 +46,6 @@ export default async function Header() {
           <div className="h-9 w-9 rounded-full bg-black/10" />
           <div className="leading-tight">
             <p className="text-sm font-semibold">NL Pharmacy Museum</p>
-            <p className="text-xs text-black/60">Memorial University</p>
           </div>
         </Link>
 
