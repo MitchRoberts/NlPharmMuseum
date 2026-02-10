@@ -1,7 +1,20 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
-  /* config options here */
+const apiBase = process.env.NEXT_PUBLIC_WP_API_BASE;
+
+if (!apiBase) {
+  throw new Error("NEXT_PUBLIC_WP_API_BASE is not defined");
+}
+
+const nextConfig = {
+  images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "i0.wp.com" }, 
+      { protocol: "https", hostname: "public-api.wordpress.com" },
+      { protocol: "https", hostname: new URL(apiBase).hostname },
+    ],
+  },
 };
 
-export default nextConfig;
+module.exports = nextConfig;
+
