@@ -6,7 +6,6 @@ export default async function Home() {
 
   return (
     <main>
-      {/* HERO */}
       <section className="bg-black text-white">
         <div className="mx-auto max-w-6xl px-4 py-24">
           <h1 className="text-4xl md:text-5xl font-semibold">
@@ -19,7 +18,6 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* LATEST UPDATES */}
       <section className="mx-auto max-w-6xl px-4 py-16">
         <h2 className="text-2xl font-semibold">Latest Updates</h2>
 

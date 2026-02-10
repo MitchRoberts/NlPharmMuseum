@@ -1,17 +1,26 @@
 import Link from "next/link";
+import Image from "next/image";
 import { WPPost, stripHtml, getPostImageUrl } from "@/app/lib/wp";
 
 export default function PostCard({ post }: { post: WPPost }) {
   const img = getPostImageUrl(post);
+  const href = `/posts/${post.slug}`;
 
   return (
-    <article className="group rounded-xl overflow-hidden border bg-white hover:shadow-md transition">
+    <Link
+      href={href}
+      className="group block rounded-xl overflow-hidden border bg-white hover:shadow-md transition focus:outline-none focus:ring-2 focus:ring-black/30"
+      aria-label={`Read: ${stripHtml(post.title.rendered)}`}
+    >
       {img && (
-        <div className="aspect-[4/3] overflow-hidden">
-          <img
+        <div className="relative aspect-[4/3] overflow-hidden bg-black/5">
+          <Image
             src={img}
             alt={stripHtml(post.title.rendered)}
-            className="h-full w-full object-cover group-hover:scale-105 transition"
+            fill
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            className="object-cover group-hover:scale-105 transition-transform"
+            priority={false}
           />
         </div>
       )}
@@ -25,13 +34,10 @@ export default function PostCard({ post }: { post: WPPost }) {
           {stripHtml(post.excerpt.rendered)}
         </p>
 
-        <Link
-          href={`/posts/${post.slug}`}
-          className="inline-block mt-3 text-sm font-medium underline"
-        >
-          Read more
-        </Link>
+        <p className="mt-3 text-sm font-medium underline">
+          Click to Read more
+        </p>
       </div>
-    </article>
+    </Link>
   );
 }
