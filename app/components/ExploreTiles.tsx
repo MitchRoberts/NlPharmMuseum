@@ -10,7 +10,7 @@ export default function ExploreTiles() {
   return (
     <section className="bg-neutral-50 border-y">
       <div className="mx-auto max-w-6xl px-4 py-16">
-        <h2 className="text-2xl font-semibold">Explore the Museum</h2>
+        <h2 className="text-2xl text-black font-semibold">Explore the Museum</h2>
 
         <div className="mt-8 grid gap-6 md:grid-cols-3">
           {tiles.map((t) => (

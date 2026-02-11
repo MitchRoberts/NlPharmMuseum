@@ -77,7 +77,7 @@ export default function NavClient({ nav }: { nav: NavItem[] }) {
                     key={child.id}
                     href={`/${child.slug}`}
                     onClick={() => setOpenSlug(null)}
-                    className="block px-4 py-3 text-sm hover:bg-black/5"
+                    className="block px-4 py-3 text-sm text-black hover:bg-black/5"
                   >
                     {child.title}
                   </Link>

@@ -26,7 +26,7 @@ export default function PostCard({ post }: { post: WPPost }) {
       )}
 
       <div className="p-4">
-        <h3 className="font-semibold leading-snug">
+        <h3 className="font-semibold text-black leading-snug">
           {stripHtml(post.title.rendered)}
         </h3>
 
@@ -34,7 +34,7 @@ export default function PostCard({ post }: { post: WPPost }) {
           {stripHtml(post.excerpt.rendered)}
         </p>
 
-        <p className="mt-3 text-sm font-medium underline">
+        <p className="mt-3 text-sm text-black/80 font-medium underline">
           Click to Read more
         </p>
       </div>
