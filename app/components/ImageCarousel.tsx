@@ -58,6 +58,10 @@ export default function GalleryCarousel({
     setIndex(next);
   };
 
+  // swipe tuning (mobile)
+  const swipeConfidenceThreshold = 80; // px
+  const swipeVelocityThreshold = 400; // px/s
+
   // how far left/right the peeks sit from center
   const offset = isMd ? 280 : 170;
 
@@ -81,7 +85,6 @@ export default function GalleryCarousel({
   };
 
   // we keep all cards the SAME base size and use scale for peeks
-  // This makes the movement feel like a cylinder rotation.
   const baseW = isMd ? 360 : 220;
   const baseH = isMd ? 320 : 240;
 
@@ -93,8 +96,8 @@ export default function GalleryCarousel({
   ];
 
   return (
-    <div className="mx-auto max-w-5xl">
-			{/*Comment in div adds/removes border around the images, not sure whats better yet*/}
+    <div className="mx-auto w-full max-w-5xl">
+      {/* Commented out: border around the images */}
       <div /*className="relative rounded-4xl bg-white/60 shadow-sm px-8 py-6"*/>
         {/* stage */}
         <div className="relative h-[260px] md:h-[340px] overflow-hidden">
@@ -117,7 +120,6 @@ export default function GalleryCarousel({
                   style={{
                     width: baseW,
                     height: baseH,
-                    // slightly dim peeks without fading in/out
                     opacity: pos === "center" ? 1 : 0.6,
                     transformOrigin: "center center",
                   }}
@@ -137,13 +139,45 @@ export default function GalleryCarousel({
             })}
           </div>
 
-          {/* arrows */}
+          {/* swipe layer (captures touch + mouse drag) */}
+          {count > 1 && (
+            <motion.div
+              className="absolute inset-0 z-10"
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.12}
+              onDragEnd={(_, info) => {
+                const offsetX = info.offset.x;
+                const velocityX = info.velocity.x;
+
+                if (
+                  offsetX < -swipeConfidenceThreshold ||
+                  velocityX < -swipeVelocityThreshold
+                ) {
+                  goNext();
+                  return;
+                }
+
+                if (
+                  offsetX > swipeConfidenceThreshold ||
+                  velocityX > swipeVelocityThreshold
+                ) {
+                  goPrev();
+                  return;
+                }
+              }}
+              style={{ touchAction: "pan-y" }}
+              aria-label="Swipe carousel"
+            />
+          )}
+
+          {/* arrows (desktop only) */}
           {count > 1 && (
             <>
               <button
                 type="button"
                 onClick={goPrev}
-                className="absolute left-2 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full bg-black/5 hover:bg-black/10 flex items-center justify-center"
+                className="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full bg-black/5 hover:bg-black/10 items-center justify-center z-20"
                 aria-label="Previous"
               >
                 ‹
@@ -151,7 +185,7 @@ export default function GalleryCarousel({
               <button
                 type="button"
                 onClick={goNext}
-                className="absolute right-2 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full bg-black/5 hover:bg-black/10 flex items-center justify-center"
+                className="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full bg-black/5 hover:bg-black/10 items-center justify-center z-20"
                 aria-label="Next"
               >
                 ›
