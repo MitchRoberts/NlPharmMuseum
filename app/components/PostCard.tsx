@@ -25,7 +25,7 @@ export default function PostCard({ post }: { post: WPPost }) {
         </div>
       )}
 
-      <div className="p-4 hover:shadow-md">
+      <div className="p-4">
         <h3 className="font-semibold text-black leading-snug">
           {stripHtml(post.title.rendered)}
         </h3>
