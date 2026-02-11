@@ -44,7 +44,7 @@ export default async function Header() {
   const logoUrl = media?.source_url as string | undefined;
 
   return (
-    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur border-b">
+    <header className="sticky top-0 z-50 bg-white md:bg-white/90 md:backdrop-blur">
       <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between gap-3">
         <Link href="/" className="flex items-center gap-2">
           {logoUrl ? (

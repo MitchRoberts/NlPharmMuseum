@@ -19,9 +19,9 @@ export default function ExploreTiles() {
               href={t.href}
               className="rounded-xl border bg-white p-6 hover:shadow-md transition block"
             >
-              <h3 className="text-lg font-semibold">{t.title}</h3>
+              <h3 className="text-lg text-black font-semibold">{t.title}</h3>
               <p className="mt-2 text-sm text-black/70">{t.desc}</p>
-              <p className="mt-4 text-sm font-medium underline">Learn more</p>
+              <p className="mt-4 text-sm text-black/90 font-medium underline">Learn more</p>
             </Link>
           ))}
         </div>

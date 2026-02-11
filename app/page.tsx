@@ -12,7 +12,6 @@ export default async function Home() {
   const sliderCatId = sliderCat?.id;
   const profileCatId = profileCat?.id;
   const logoUrl = (profilePic as any)?.jetpack_featured_media_url ?? (profilePic as any)?._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
-  const excludeCats = [sliderCatId, profileCatId].filter(Boolean) as number[];
   console.log({ sliderCatId, profileCatId, profilePicId: profilePic?.id });
 
 
