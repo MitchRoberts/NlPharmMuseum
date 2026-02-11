@@ -4,7 +4,7 @@ export default function PlanVisit() {
   return (
     <section className="mx-auto max-w-6xl px-4 py-16 bg-[#eaf0db]">
 			<div className="border-t border-black/20 pt-6 text-sm" />
-      <h2 className="text-2xl font-semibold">Plan Your Visit</h2>
+      <h2 className="text-2xl text-blackfont-semibold">Plan Your Visit</h2>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-2">
         <div className="rounded-xl bg-white p-6">
