@@ -9,7 +9,7 @@ export default function PostCard({ post }: { post: WPPost }) {
   return (
     <Link
       href={href}
-      className="group block rounded-xl overflow-hidden border bg-white hover:shadow-md transition focus:outline-none focus:ring-2 focus:ring-black/30"
+      className="group block rounded-xl overflow-hidden bg-white hover:shadow-md transition focus:outline-none focus:ring-2 focus:ring-black/30"
       aria-label={`Read: ${stripHtml(post.title.rendered)}`}
     >
       {img && (
@@ -25,7 +25,7 @@ export default function PostCard({ post }: { post: WPPost }) {
         </div>
       )}
 
-      <div className="p-4">
+      <div className="p-4 hover:shadow-md">
         <h3 className="font-semibold text-black leading-snug">
           {stripHtml(post.title.rendered)}
         </h3>

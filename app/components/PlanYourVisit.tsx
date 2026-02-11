@@ -2,11 +2,12 @@ import Link from "next/link";
 
 export default function PlanVisit() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-16">
+    <section className="mx-auto max-w-6xl px-4 py-16 bg-[#eaf0db]">
+			<div className="border-t border-black/20 pt-6 text-sm" />
       <h2 className="text-2xl font-semibold">Plan Your Visit</h2>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-2">
-        <div className="rounded-xl border bg-white p-6">
+        <div className="rounded-xl bg-white p-6">
           <h3 className="text-lg text-black font-semibold">Hours</h3>
           <ul className="mt-3 text-sm text-black/70 space-y-2">
             <li><b>Wed-Sun:</b> 10:00 AM - 4:00 PM</li>
@@ -21,10 +22,10 @@ export default function PlanVisit() {
           </Link>
         </div>
 
-        <div className="rounded-xl border bg-white p-6">
+        <div className="rounded-xl bg-white p-6">
           <h3 className="text-lg text-black font-semibold">Location</h3>
           <p className="mt-3 text-sm text-black/70">
-            ...
+            ... Gonna put map here soon
           </p>
           <Link
             href="/visit"

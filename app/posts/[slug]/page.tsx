@@ -12,7 +12,8 @@ export default async function PostPage({
   if (!post) return notFound();
 
   return (
-    <main className="mx-auto max-w-4xl px-4 py-10 bg-[#f2f6e9]">
+    <div className="min-h-screen bg-[#f2f6e9]">
+      <main className="mx-auto max-w-4xl px-4 py-10">
       <p className="text-sm text-black/60">
         {new Date(post.date).toLocaleDateString()}
       </p>
@@ -25,5 +26,7 @@ export default async function PostPage({
         <div dangerouslySetInnerHTML={{ __html: post.content.rendered }} />
       </article>
     </main>
+    </div>
+    
   );
 }

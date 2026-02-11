@@ -45,8 +45,8 @@ export default async function Home() {
 
   return (
     <main>
-      <section className="bg-[#f2f6e9] border-b">
-        <div className="mx-auto max-w-6xl px-4 py-14 md:py-18 flex flex-col items-center">
+      <section className="bg-[#f2f6e9]">
+        <div className="mx-auto max-w-6xl px-4 py-12 md:py-18 flex flex-col items-center">
           <div className="max-w-3xl text-center">
             {logoUrl ? (
               <Image
@@ -78,7 +78,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-16">
+      <section className="bg-[#eaf0db] mx-auto max-w-6xl px-4 pt-16">
         <h2 className="text-2xl font-semibold">Latest Updates</h2>
 
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
