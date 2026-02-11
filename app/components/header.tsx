@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { getPages, stripHtml, WPPage } from "@/app/lib/wp";
+import Image from "next/image";
+import { getPages, stripHtml, WPPage, getPostBySlug } from "@/app/lib/wp";
 import NavClient, { NavItem } from "@/app/components/NavClient";
 
 function buildNavTree(pages: WPPage[]): NavItem[] {
@@ -38,21 +39,34 @@ export default async function Header() {
   const pages = await getPages().catch(() => [] as WPPage[]);
   const nav = buildNavTree(pages);
 
+  const logoPost = await getPostBySlug("profile-picture").catch(() => null);
+  const media = (logoPost as any)?._embedded?.["wp:featuredmedia"]?.[0];
+  const logoUrl = media?.source_url as string | undefined;
+
   return (
     <header className="sticky top-0 z-50 bg-white/90 backdrop-blur border-b">
       <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between gap-3">
-        {/* Logo / Brand */}
         <Link href="/" className="flex items-center gap-2">
-          <div className="h-9 w-9 rounded-full bg-black/10" />
+          {logoUrl ? (
+            <Image
+              src={logoUrl}
+              alt="NL Pharmacy Museum"
+              width={36}
+              height={36}
+              className="h-9 w-9 rounded-full object-contain bg-white"
+              priority
+            />
+          ) : (
+            <div className="h-9 w-9 rounded-full bg-black/10" />
+          )}
+
           <div className="leading-tight">
             <p className="text-sm font-semibold">NL Pharmacy Museum</p>
           </div>
         </Link>
 
-        {/* Desktop Nav */}
         <NavClient nav={nav} />
 
-        {/* Right-side CTA */}
         <div className="flex items-center gap-2">
           <Link
             href="/visit"

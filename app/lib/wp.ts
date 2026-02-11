@@ -50,10 +50,17 @@ async function wpFetch<T>(path: string): Promise<T> {
 /**
  * POSTS
  */
-export async function getPosts(params?: Record<string, string | number | boolean>) {
+export async function getPosts(params?: Record<string, string | number | boolean | (string | number)[]>) {
   const usp = new URLSearchParams();
   if (params) {
-    for (const [k, v] of Object.entries(params)) usp.set(k, String(v));
+    for (const [k, v] of Object.entries(params)) {
+      if (Array.isArray(v)) {
+        usp.delete(k);
+        for (const item of v) usp.append(k, String(item));
+      } else {
+        usp.set(k, String(v));
+      }
+    }
   }
 
   // helpful defaults
@@ -68,7 +75,7 @@ export async function getPosts(params?: Record<string, string | number | boolean
 
 export async function getPostBySlug(slug: string) {
   const posts = await wpFetch<WPPost[]>(
-    `/posts?slug=${encodeURIComponent(slug)}`
+    `/posts?slug=${encodeURIComponent(slug)}&_embed=1`
   );
   return posts[0] ?? null;
 }
@@ -83,12 +90,12 @@ export async function getPostsByCategorySlug(categorySlug: string, perPage = 3) 
  * PAGES (for building dropdown nav from parent/child)
  */
 export async function getPages() {
-  return wpFetch<WPPage[]>(`/pages?per_page=100&orderby=menu_order&order=asc`);
+  return wpFetch<WPPage[]>(`/pages?per_page=100&orderby=menu_order&order=asc&_embed=1`);
 }
 
 export async function getPageBySlug(slug: string) {
   const pages = await wpFetch<WPPage[]>(
-    `/pages?slug=${encodeURIComponent(slug)}`
+    `/pages?slug=${encodeURIComponent(slug)}&_embed=1`
   );
   return pages[0] ?? null;
 }

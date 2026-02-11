@@ -94,7 +94,8 @@ export default function GalleryCarousel({
 
   return (
     <div className="mx-auto max-w-5xl">
-      <div className="relative rounded-2xl border bg-white/60 shadow-sm px-8 py-6">
+			{/*Comment in div adds/removes border around the images, not sure whats better yet*/}
+      <div /*className="relative rounded-4xl bg-white/60 shadow-sm px-8 py-6"*/>
         {/* stage */}
         <div className="relative h-[260px] md:h-[340px] overflow-hidden">
           <div className="absolute inset-0 flex items-center justify-center">

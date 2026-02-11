@@ -2,17 +2,26 @@ import ImageCarousel from "@/app/components/ImageCarousel";
 import PostCard from "@/app/components/PostCard";
 import ExploreTiles from "@/app/components/ExploreTiles";
 import PlanVisit from "@/app/components/PlanYourVisit";
-import { getPosts, getPostsByCategorySlug, stripHtml, getCategoryBySlug } from "@/app/lib/wp";
+import { getPosts, getPostsByCategorySlug, stripHtml, getCategoryBySlug, getPostBySlug } from "@/app/lib/wp";
+import Image from "next/image";
 
 export default async function Home() {
   const sliderCat = await getCategoryBySlug("homepage-slider");
+  const profileCat = await getCategoryBySlug("profile-picture");
+  const profilePic = await getPostBySlug("profile-picture");
   const sliderCatId = sliderCat?.id;
+  const profileCatId = profileCat?.id;
+  const logoUrl = (profilePic as any)?.jetpack_featured_media_url ?? (profilePic as any)?._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
+  const excludeCats = [sliderCatId, profileCatId].filter(Boolean) as number[];
+  console.log({ sliderCatId, profileCatId, profilePicId: profilePic?.id });
+
 
   const [latest, sliderPosts] = await Promise.all([
     getPosts({
-      per_page: 6,
-      ...(sliderCatId ? { categories_exclude: sliderCatId } : {}),
-    }),
+    per_page: 6,
+    ...(sliderCatId ? { categories_exclude: sliderCatId } : {}),
+    ...(profilePic?.id ? { exclude: profilePic.id } : {}),
+  }),
     getPostsByCategorySlug("homepage-slider", 10),
   ]);
 
@@ -40,6 +49,19 @@ export default async function Home() {
       <section className="bg-[#faf8f1] border-b">
         <div className="mx-auto max-w-6xl px-4 py-14 md:py-18 flex flex-col items-center">
           <div className="max-w-3xl text-center">
+            {logoUrl ? (
+              <Image
+                src={logoUrl}
+                alt="NL Pharmacy Museum"
+                width={120}
+                height={120}
+                className="h-30 w-30 rounded-full object-contain bg-white mx-auto"
+                priority
+              />
+            ) : (
+              <div className="mx-auto h-9 w-9 rounded-full bg-black/10" />
+            )}
+
             <h1 className="mt-3 text-4xl md:text-6xl font-semibold tracking-tight text-black">
               Newfoundland & Labrador Pharmacy Museum
             </h1>
