@@ -125,8 +125,21 @@ export async function getCategoryBySlug(slug: string) {
  * UTIL
  */
 export function stripHtml(html: string) {
-  return html.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+  // remove tags first
+  const text = html.replace(/<[^>]+>/g, " ");
+
+  // decode common HTML entities
+  return text
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#039;/g, "'")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/\s+/g, " ")
+    .trim();
 }
+
 
 export function getPostImageUrl(post: WPPost) {
   return post.jetpack_featured_media_url ?? null;

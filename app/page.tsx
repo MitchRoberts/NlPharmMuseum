@@ -45,7 +45,7 @@ export default async function Home() {
 
   return (
     <main>
-      <section className="bg-[#faf8f1] border-b">
+      <section className="bg-[#f2f6e9] border-b">
         <div className="mx-auto max-w-6xl px-4 py-14 md:py-18 flex flex-col items-center">
           <div className="max-w-3xl text-center">
             {logoUrl ? (

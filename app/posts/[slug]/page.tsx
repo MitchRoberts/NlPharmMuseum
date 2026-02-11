@@ -12,19 +12,18 @@ export default async function PostPage({
   if (!post) return notFound();
 
   return (
-    <main className="mx-auto max-w-4xl px-4 py-10">
+    <main className="mx-auto max-w-4xl px-4 py-10 bg-[#f2f6e9]">
       <p className="text-sm text-black/60">
         {new Date(post.date).toLocaleDateString()}
       </p>
 
-      <h1 className="mt-2 text-3xl md:text-4xl font-semibold tracking-tight">
+      <h1 className="mt-2 text-3xl md:text-4xl font-semibold tracking-tight text-black">
         {stripHtml(post.title.rendered)}
       </h1>
 
-      <article
-        className="mt-8 space-y-4 text-black/80"
-        dangerouslySetInnerHTML={{ __html: post.content.rendered }}
-      />
+      <article className="mt-8 wp-content text-black/80">
+        <div dangerouslySetInnerHTML={{ __html: post.content.rendered }} />
+      </article>
     </main>
   );
 }

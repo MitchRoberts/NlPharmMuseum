@@ -24,3 +24,82 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* ===== WordPress / Gutenberg content ===== */
+
+.wp-content > * + * {
+  margin-top: 1.25rem;
+}
+
+/* text alignment helpers */
+.wp-content .has-text-align-center { text-align: center; }
+.wp-content .has-text-align-right  { text-align: right; }
+.wp-content .has-text-align-left   { text-align: left; }
+
+/* Clear floated left/right images so following blocks don't wrap weirdly */
+.wp-content::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+/* Base image styling */
+.wp-content img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Gutenberg image wrapper */
+.wp-content figure.wp-block-image,
+.wp-content .wp-block-image {
+  margin: 1.25rem 0;
+}
+
+/* ----- CENTERING (catch multiple WP patterns) ----- */
+
+/* If WP uses aligncenter on figure OR image */
+.wp-content figure.aligncenter img,
+.wp-content img.aligncenter {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* If WP uses has-text-align-center on the figure/wrapper */
+.wp-content figure.has-text-align-center img,
+.wp-content .wp-block-image.has-text-align-center img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* If WP uses inline style text-align:center on wrapper (common sometimes) */
+.wp-content figure[style*="text-align:center"] img,
+.wp-content .wp-block-image[style*="text-align:center"] img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ----- LEFT/RIGHT (classic WP) ----- */
+.wp-content figure.alignleft,
+.wp-content img.alignleft {
+  float: left;
+  margin: 0.75rem 1.25rem 0.75rem 0;
+}
+
+.wp-content figure.alignright,
+.wp-content img.alignright {
+  float: right;
+  margin: 0.75rem 0 0.75rem 1.25rem;
+}
+
+/* Captions */
+.wp-content figcaption {
+  margin-top: 0.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+
