@@ -9,35 +9,38 @@ export default function PostCard({ post }: { post: WPPost }) {
   return (
     <Link
       href={href}
-      className="group block rounded-xl overflow-hidden bg-white hover:shadow-md transition focus:outline-none focus:ring-2 focus:ring-black/30"
+      className="group block h-full rounded-xl overflow-hidden bg-white hover:shadow-md transition focus:outline-none focus:ring-2 focus:ring-black/30"
       aria-label={`Read: ${stripHtml(post.title.rendered)}`}
     >
-      {img && (
-        <div className="relative aspect-[4/3] overflow-hidden bg-black/5">
-          <Image
-            src={img}
-            alt={stripHtml(post.title.rendered)}
-            fill
-            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className="object-cover group-hover:scale-105 transition-transform"
-            priority={false}
-          />
+      <div className="flex h-full flex-col">
+        {img && (
+          <div className="relative aspect-[4/3] overflow-hidden bg-black/5 shrink-0">
+            <Image
+              src={img}
+              alt={stripHtml(post.title.rendered)}
+              fill
+              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+              className="object-cover group-hover:scale-105 transition-transform"
+              priority={false}
+            />
+          </div>
+        )}
+
+        <div className="p-4 flex flex-1 flex-col">
+          <h3 className="font-semibold text-black leading-snug">
+            {stripHtml(post.title.rendered)}
+          </h3>
+
+          <p className="mt-2 text-sm text-black/70 line-clamp-3">
+            {stripHtml(post.excerpt.rendered)}
+          </p>
+
+          <p className="mt-auto pt-3 text-sm text-black/80 font-medium underline">
+            Click to Read more
+          </p>
         </div>
-      )}
-
-      <div className="p-4">
-        <h3 className="font-semibold text-black leading-snug">
-          {stripHtml(post.title.rendered)}
-        </h3>
-
-        <p className="mt-2 text-sm text-black/70 line-clamp-3">
-          {stripHtml(post.excerpt.rendered)}
-        </p>
-
-        <p className="mt-3 text-sm text-black/80 font-medium underline">
-          Click to Read more
-        </p>
       </div>
     </Link>
   );
+
 }

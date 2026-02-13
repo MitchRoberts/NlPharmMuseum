@@ -12,7 +12,7 @@ export default async function WPPage({
   if (!page) return notFound();
 
   return (
-    <main className="mx-auto max-w-4xl px-4 py-10">
+    <main className="mx-auto max-w-4xl px-4 py-10 bg-[#f2f6e9]">
       <h1 className="text-3xl md:text-4xl font-semibold tracking-tight">
         {stripHtml(page.title.rendered)}
       </h1>

@@ -21,7 +21,8 @@ export default function Footer() {
                 className="underline hover:text-white"
               >
                 hello@nlpharmacymuseum.ca
-              </a>
+              </a><br />
+              Registered Charity CRA No. 768787301RR0001
             </p>
           </div>
 
