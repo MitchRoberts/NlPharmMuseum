@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 const tiles = [
-  { title: "Collections", href: "/collections", desc: "Browse artifacts and stories from our holdings." },
-  { title: "Programs", href: "/education", desc: "Workshops, tours, and learning resources." },
+  { title: "Events", href: "/events", desc: "See current and upcoming events." },
+  { title: "About the Museum", href: "/about", desc: "Discover what the museum is all about." },
   { title: "Exhibits", href: "/exhibits", desc: "Current and past exhibitions." },
 ];
 

@@ -3,10 +3,25 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
-const NAV_ITEMS = [
-  { label: "Home", href: "/"},
+type NavLink = {
+  label: string;
+  href?: string;
+  children?: NavLink[];
+};
+
+const NAV_ITEMS: NavLink[] = [
+  { label: "Home", href: "/" },
   { label: "Visit", href: "/visit" },
-  { label: "About us", href: "/about" },
+
+  {
+    label: "About us",
+    href: "/about",
+    children: [
+      { label: "About the museum", href: "/about" },
+      { label: "Our team", href: "/our-team" },
+    ],
+  },
+
   { label: "Contact", href: "/contact" },
   { label: "Exhibits", href: "/exhibits" },
   { label: "Events", href: "/events" },
@@ -26,6 +41,45 @@ function useClickOutside<T extends HTMLElement>(onOutside: () => void) {
   }, [onOutside]);
 
   return ref;
+}
+
+function MobileAccordionItem({
+  item,
+  closeMenu,
+}: {
+  item: NavLink;
+  closeMenu: () => void;
+}) {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <div className="rounded-xl overflow-hidden">
+      <button
+        type="button"
+        onClick={() => setExpanded((v) => !v)}
+        className="w-full flex items-center justify-between rounded-xl px-4 py-4 text-base font-medium text-black/90 hover:bg-black/5 active:bg-black/10"
+        aria-expanded={expanded}
+      >
+        <span>{item.label}</span>
+        <span className="text-black/50">{expanded ? "▴" : "▾"}</span>
+      </button>
+
+      {expanded && (
+        <div className="pb-2">
+          {item.children!.map((child) => (
+            <Link
+              key={child.href}
+              href={child.href!}
+              onClick={closeMenu}
+              className="block px-6 py-3 text-sm font-medium text-black/80 hover:bg-black/5"
+            >
+              {child.label}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default function NavClient() {
@@ -55,15 +109,41 @@ export default function NavClient() {
     <div ref={wrapperRef} className="relative">
       {/* Desktop inline nav (no hamburger) */}
       <nav className="hidden lg:flex items-center gap-1">
-        {NAV_ITEMS.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className="px-3 py-2 rounded-lg text-sm font-medium text-black/80 hover:bg-black/5 hover:text-black transition"
-          >
-            {item.label}
-          </Link>
-        ))}
+        {NAV_ITEMS.map((item) => {
+          const hasChildren = !!item.children?.length;
+
+          return (
+            <div
+              key={item.label}
+              className="relative group
+                        after:content-[''] after:absolute after:left-0 after:top-full
+                        after:h-3 after:w-full"
+            >
+              <Link
+                href={item.href ?? "#"}
+                className="px-3 py-2 rounded-lg text-sm font-medium text-black/80 hover:bg-black/5 hover:text-black transition inline-flex items-center gap-1"
+              >
+                {item.label}
+                {hasChildren ? <span className="text-black/50">▾</span> : null}
+              </Link>
+
+              {/* Hover dropdown */}
+              {hasChildren && (
+                <div className="absolute left-0 top-full pt-2 min-w-56 rounded-xl bg-white shadow-lg overflow-hidden z-50 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition">
+                  {item.children!.map((child) => (
+                    <Link
+                      key={child.href}
+                      href={child.href!}
+                      className="block px-4 py-3 text-sm text-black/80 hover:bg-black/5"
+                    >
+                      {child.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          );
+        })}
       </nav>
 
       {/* Mobile hamburger */}
@@ -100,18 +180,32 @@ export default function NavClient() {
             <p className="text-xs text-black/60">Explore the museum</p>
           </div>
 
-          <nav className="p-2">
-            {NAV_ITEMS.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setOpen(false)}
-                className="flex items-center justify-between rounded-xl px-4 py-4 text-base font-medium text-black/90 hover:bg-black/5 active:bg-black/10"
-              >
-                {item.label}
-                <span className="text-black/30">›</span>
-              </Link>
-            ))}
+          <nav className="p-2 space-y-1">
+            {NAV_ITEMS.map((item) => {
+              const hasChildren = !!item.children?.length;
+
+              if (hasChildren) {
+                return (
+                  <MobileAccordionItem
+                    key={item.label}
+                    item={item}
+                    closeMenu={() => setOpen(false)}
+                  />
+                );
+              }
+
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href!}
+                  onClick={() => setOpen(false)}
+                  className="flex items-center justify-between rounded-xl px-4 py-4 text-base font-medium text-black/90 hover:bg-black/5 active:bg-black/10"
+                >
+                  {item.label}
+                  <span className="text-black/30">›</span>
+                </Link>
+              );
+            })}
           </nav>
 
           <div className="p-2 border-t border-black/10">

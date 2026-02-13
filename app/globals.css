@@ -102,4 +102,72 @@ body {
   opacity: 0.8;
 }
 
+/* ===== Make Gutenberg spacing feel like WordPress ===== */
+
+/* More readable text rhythm */
+.wp-content {
+  line-height: 1.75;
+}
+
+/* Paragraph spacing (WP typically has generous paragraph margins) */
+.wp-content p {
+  margin: 0 0 1.25rem 0;
+}
+
+/* Headings: give them breathing room like WP themes do */
+.wp-content h1,
+.wp-content h2,
+.wp-content h3,
+.wp-content h4,
+.wp-content h5,
+.wp-content h6 {
+  margin: 2rem 0 0.75rem 0;
+  line-height: 1.2;
+}
+
+/* Lists need spacing + indent */
+.wp-content ul,
+.wp-content ol {
+  margin: 0 0 1.25rem 1.25rem;
+  padding: 0;
+}
+
+.wp-content li + li {
+  margin-top: 0.35rem;
+}
+
+/* Blockquotes often look cramped without styling */
+.wp-content blockquote {
+  margin: 1.5rem 0;
+  padding-left: 1rem;
+  border-left: 3px solid rgba(0, 0, 0, 0.15);
+  opacity: 0.9;
+}
+
+/* Separators */
+.wp-content hr,
+.wp-content .wp-block-separator {
+  margin: 2rem 0;
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+/* Gutenberg groups/columns sometimes need explicit spacing */
+.wp-content .wp-block-group,
+.wp-content .wp-block-columns {
+  margin: 1.5rem 0;
+}
+
+/* Buttons block */
+.wp-content .wp-block-button__link {
+  border-radius: 9999px;
+  padding: 0.75rem 1.25rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* Optional: make centered long text look less "cramped" */
+.wp-content .has-text-align-center {
+  text-wrap: balance;
+}
 
