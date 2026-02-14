@@ -8,21 +8,29 @@ import Image from "next/image";
 export default async function Home() {
   const sliderCat = await getCategoryBySlug("homepage-slider");
   const profileCat = await getCategoryBySlug("profile-picture");
+  const teamCat = await getCategoryBySlug("team");
   const profilePic = await getPostBySlug("profile-picture");
   const sliderCatId = sliderCat?.id;
-  const profileCatId = profileCat?.id;
+  const teamCatId = teamCat?.id;
   const logoUrl = (profilePic as any)?.jetpack_featured_media_url ?? (profilePic as any)?._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
-  console.log({ sliderCatId, profileCatId, profilePicId: profilePic?.id });
 
+  const excludeCats: number[] = [];
+  if (sliderCatId) excludeCats.push(sliderCatId);
+  if (teamCatId) excludeCats.push(teamCatId);
 
   const [latest, sliderPosts] = await Promise.all([
     getPosts({
-    per_page: 6,
-    ...(sliderCatId ? { categories_exclude: sliderCatId } : {}),
-    ...(profilePic?.id ? { exclude: profilePic.id } : {}),
-  }),
+      per_page: 6,
+      ...(excludeCats.length ? { categories_exclude: excludeCats } : {}),
+      ...(profilePic?.id ? { exclude: profilePic.id } : {}),
+    }),
     getPostsByCategorySlug("homepage-slider", 10),
   ]);
+
+  const sliderIds = new Set(sliderPosts.map(p => p.id));
+  const filteredLatest = latest.filter(p => !sliderIds.has(p.id));
+
+
 
   const sliderItems = sliderPosts
     .map((p) => {
@@ -83,7 +91,7 @@ export default async function Home() {
           <h2 className="text-2xl text-black font-semibold">Latest Updates</h2>
 
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {latest.map((p) => (
+            {filteredLatest.slice(0, 3).map((p) => (
               <PostCard key={p.id} post={p} />
             ))}
           </div>
