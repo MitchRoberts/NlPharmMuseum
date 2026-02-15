@@ -31,15 +31,14 @@ function buildAboutData(renderedHtml: string): AboutData | null {
   const obj = extractJsonFromWpHtml(renderedHtml);
   if (!obj || typeof obj !== "object") return null;
 
-  const coreValuesRaw = Array.isArray((obj as any).coreValues)
-    ? (obj as any).coreValues
-    : [];
+  const coreValuesRaw = Array.isArray((obj as any).coreValues) ? (obj as any).coreValues : [];
 
   const coreValues: CoreValue[] = coreValuesRaw
     .map((v: any) => ({
       title: typeof v?.title === "string" ? v.title : "",
       text: typeof v?.text === "string" ? v.text : "",
-      imageIndex: typeof v?.imageIndex === "number" ? v.imageIndex : Number(v?.imageIndex),
+      imageIndex:
+        typeof v?.imageIndex === "number" ? v.imageIndex : Number(v?.imageIndex),
     }))
     .filter((v: CoreValue) => v.title && v.text);
 
@@ -63,22 +62,17 @@ export default async function AboutPage() {
   const contentHtml = (aboutPost as any)?.content?.rendered?.trim() || "";
   const excerptHtml = (aboutPost as any)?.excerpt?.rendered?.trim() || "";
 
-  const data =
-    buildAboutData(contentHtml) ??
-    buildAboutData(excerptHtml) ??
-    {};
+  const data = buildAboutData(contentHtml) ?? buildAboutData(excerptHtml) ?? {};
 
   // All images found in content (gallery, img tags, srcset, etc.)
   const contentImages = extractAllImageUrlsFromRenderedHtml(contentHtml);
 
-  // hero uses first image if present, else featured
   const heroUrl =
     contentImages[0] ??
     (aboutPost as any)?.jetpack_featured_media_url ??
     (aboutPost as any)?._embedded?.["wp:featuredmedia"]?.[0]?.source_url ??
     null;
 
-  // neat defaults (only if WP JSON missing)
   const heroTitle = data.heroTitle || "About";
   const intro =
     data.intro?.length
@@ -97,27 +91,36 @@ export default async function AboutPage() {
     data.coreValues?.length
       ? data.coreValues
       : [
-          { title: "Honour", text: "We honour pharmacy practice by offering a glimpse into how pharmacy care advanced through the years.", imageIndex: 1 },
-          { title: "Preserve", text: "We take great pride in preserving and displaying the treasured pharmacy antiques and artifacts that have stood the test of time.", imageIndex: 2 },
-          { title: "Trust", text: "We tell the story through our collections of how pharmacy professionals came to be trusted community members.", imageIndex: 3 },
+          {
+            title: "Honour",
+            text: "We honour pharmacy practice by offering a glimpse into how pharmacy care advanced through the years.",
+            imageIndex: 1,
+          },
+          {
+            title: "Preserve",
+            text: "We take great pride in preserving and displaying the treasured pharmacy antiques and artifacts that have stood the test of time.",
+            imageIndex: 2,
+          },
+          {
+            title: "Trust",
+            text: "We tell the story through our collections of how pharmacy professionals came to be trusted community members.",
+            imageIndex: 3,
+          },
         ];
 
   const historyTitle = data.historyTitle || "History of the Building";
   const history = data.history?.length ? data.history : [];
 
-  // debug (server terminal)
-  console.log("ABOUT contentImages:", contentImages);
-  console.log("ABOUT coreValues:", coreValues);
-
   return (
     <div className="bg-[#f2f6e9]">
       <HeroBanner title={heroTitle.toUpperCase()} imageUrl={heroUrl} />
 
+      {/* Key fix: PageShell should already center content; keep its padding responsive */}
       <PageShell className="py-10 md:py-14">
         {/* Intro + Mission */}
         <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
           <div>
-            <h2 className="text-[#7a1630] text-5xl sm:text-6xl font-light tracking-tight">
+            <h2 className="text-[#7a1630] text-4xl sm:text-5xl lg:text-6xl font-light tracking-tight">
               {heroTitle}
             </h2>
 
@@ -145,7 +148,7 @@ export default async function AboutPage() {
           <div className="mt-6 space-y-6">
             {coreValues.map((v, i) => {
               const side = i % 2 === 0 ? "left" : "right";
-              const idx = Math.max(0, (v.imageIndex ?? (i + 1)) - 1);
+              const idx = Math.max(0, (v.imageIndex ?? i + 1) - 1);
               const imageUrl = contentImages[idx] ?? null;
 
               return (

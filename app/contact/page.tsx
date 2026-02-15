@@ -64,15 +64,11 @@ export default async function ContactPage() {
   const contentHtml = (contactPost as any)?.content?.rendered?.trim() || "";
   const excerptHtml = (contactPost as any)?.excerpt?.rendered?.trim() || "";
 
-  const contact =
-    buildContactData(contentHtml) ??
-    buildContactData(excerptHtml) ??
-    {};
+  const contact = buildContactData(contentHtml) ?? buildContactData(excerptHtml) ?? {};
 
-  // Images found in the post content (gallery, lazy attrs, srcset, etc.)
   const contentImageUrls = extractAllImageUrlsFromRenderedHtml(contentHtml);
 
-  const oneBased = contact.heroGalleryIndex ?? 1; // admin sets 1..N
+  const oneBased = contact.heroGalleryIndex ?? 1;
   const idx = Math.max(0, oneBased - 1);
 
   const heroUrl =
@@ -81,11 +77,6 @@ export default async function ContactPage() {
     (contactPost as any)?._embedded?.["wp:featuredmedia"]?.[0]?.source_url ??
     null;
 
-  console.log("CONTACT contentImageUrls:", contentImageUrls);
-  console.log("CONTACT heroGalleryIndex (1-based):", oneBased, "idx:", idx);
-  console.log("CONTACT heroUrl:", heroUrl);
-
-  // Fallbacks
   const heroTitle = contact.heroTitle || "Contact Us";
 
   const connectTitle = contact.connectTitle || "Let's Connect";
@@ -118,11 +109,11 @@ export default async function ContactPage() {
 
       <PageShell className="py-10 md:py-14">
         <div className="grid gap-10 lg:grid-cols-2 lg:items-end">
-          <h2 className="text-[#7a1630] text-5xl sm:text-6xl font-light tracking-tight">
+          <h2 className="text-[#7a1630] text-4xl sm:text-5xl lg:text-6xl font-light tracking-tight">
             {connectTitle}
           </h2>
 
-          <h2 className="hidden lg:block text-[#7a1630] text-5xl sm:text-6xl font-light tracking-tight">
+          <h2 className="hidden lg:block text-[#7a1630] text-4xl sm:text-5xl lg:text-6xl font-light tracking-tight">
             {getInTouchTitle}
           </h2>
         </div>

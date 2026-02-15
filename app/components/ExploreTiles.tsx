@@ -9,8 +9,13 @@ const tiles = [
 export default function ExploreTiles() {
   return (
     <section className="bg-[#eaf0db]">
-      <div className="border-t border-black/20 py-6 text-sm mx-40" />
-      <div className="mx-30 max-w-8xl px-4 pt-6">
+      {/* Divider */}
+      <div className="mx-auto max-w-8xl px-4 sm:px-6 lg:px-8">
+        <div className="border-t border-black/20 py-6 text-sm" />
+      </div>
+
+      {/* Content */}
+      <div className="mx-auto max-w-8xl px-4 sm:px-6 lg:px-8 pb-10">
         <h2 className="text-2xl text-black font-semibold">Explore the Museum</h2>
 
         <div className="mt-8 grid gap-6 md:grid-cols-3">
@@ -18,7 +23,7 @@ export default function ExploreTiles() {
             <Link
               key={t.href}
               href={t.href}
-              className="rounded-xl bg-white p-6 hover:shadow-md transition block"
+              className="rounded-xl bg-white p-6 hover:shadow-md transition block ring-1 ring-black/5"
             >
               <h3 className="text-lg text-black font-semibold">{t.title}</h3>
               <p className="mt-2 text-sm text-black/70">{t.desc}</p>

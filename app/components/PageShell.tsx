@@ -12,7 +12,9 @@ export default function PageShell({
 }) {
   return (
     <div className={`min-h-screen ${bg}`}>
-      <main className={`mx-20 max-auto px-4 py-10 ${className}`}>
+      <main
+        className={`mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 py-10 ${className}`}
+      >
         {children}
       </main>
     </div>
