@@ -3,8 +3,8 @@ import Link from "next/link";
 export default function PlanVisit() {
   return (
     <section className="bg-[#eaf0db]">
-      <div className="mx-auto max-w-6xl px-4 py-16">
-        <div className="border-t border-black/20 pt-6" />
+      <div className="border-t border-black/20 pt-6 text-sm mx-20 mt-10" />
+      <div className="mx-30 max-w-8xl px-4 py-16">
 
         <div className="mt-6 rounded-3xl bg-white shadow-sm ring-1 ring-black/5 overflow-hidden">
           <div className="p-6 sm:p-8 border-b border-black/10">

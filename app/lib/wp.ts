@@ -13,15 +13,13 @@ export type WPPost = {
   slug: string;
   date: string;
   title: { rendered: string };
-  excerpt: { rendered: string };
-  content: { rendered: string };
+  excerpt: { rendered: string; raw?: string };
+  content: { rendered: string; raw?: string };
 
-  // WordPress.com often provides this directly
   jetpack_featured_media_url?: string;
-
-  // category IDs assigned to this post
   categories?: number[];
 };
+
 
 export type WPPage = {
   id: number;
@@ -55,11 +53,11 @@ export async function getPosts(params?: Record<string, string | number | boolean
   if (params) {
     for (const [k, v] of Object.entries(params)) {
       if (Array.isArray(v)) {
-        usp.delete(k);
-        for (const item of v) usp.append(k, String(item));
+        usp.set(k, v.map(String).join(","));
       } else {
         usp.set(k, String(v));
       }
+
     }
   }
 

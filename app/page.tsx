@@ -2,54 +2,63 @@ import ImageCarousel from "@/app/components/ImageCarousel";
 import PostCard from "@/app/components/PostCard";
 import ExploreTiles from "@/app/components/ExploreTiles";
 import PlanVisit from "@/app/components/PlanYourVisit";
-import { getPosts, getPostsByCategorySlug, stripHtml, getCategoryBySlug, getPostBySlug } from "@/app/lib/wp";
 import Image from "next/image";
 
+import { getPosts, getCategoryBySlug, getPostBySlug } from "@/app/lib/wp";
+import { extractAllImageUrlsFromRenderedHtml } from "@/app/lib/wpGalleryUrls";
+import { extractJsonFromWpHtml, asNumber } from "@/app/lib/wpjson";
+
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
-  const sliderCat = await getCategoryBySlug("homepage-slider");
-  const profileCat = await getCategoryBySlug("profile-picture");
-  const teamCat = await getCategoryBySlug("team");
+  // Logo
   const profilePic = await getPostBySlug("profile-picture");
-  const sliderCatId = sliderCat?.id;
-  const teamCatId = teamCat?.id;
-  const logoUrl = (profilePic as any)?.jetpack_featured_media_url ?? (profilePic as any)?._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
+  const logoUrl =
+    (profilePic as any)?.jetpack_featured_media_url ??
+    (profilePic as any)?._embedded?.["wp:featuredmedia"]?.[0]?.source_url ??
+    null;
 
-  const excludeCats: number[] = [];
-  if (sliderCatId) excludeCats.push(sliderCatId);
-  if (teamCatId) excludeCats.push(teamCatId);
+  // Slider post (single post with Gallery block)
+  const sliderPost = await getPostBySlug("homepage-slider");
+  const sliderHtml = (sliderPost as any)?.content?.rendered?.trim() || "";
+  const sliderConfig = extractJsonFromWpHtml(sliderHtml) ?? {};
+  const sliderIntervalMs = asNumber(sliderConfig.intervalMs) ?? 7000;
 
-  const [latest, sliderPosts] = await Promise.all([
-    getPosts({
-      per_page: 6,
-      ...(excludeCats.length ? { categories_exclude: excludeCats } : {}),
-      ...(profilePic?.id ? { exclude: profilePic.id } : {}),
-    }),
-    getPostsByCategorySlug("homepage-slider", 10),
+  const sliderUrls = extractAllImageUrlsFromRenderedHtml(sliderHtml);
+  const sliderItems = sliderUrls.map((src, i) => ({
+    id: i + 1,
+    src,
+    alt: `Homepage slide ${i + 1}`,
+  }));
+
+  // Only allow Latest Updates from these categories
+  const [newsCat, exhibitsCat, eventsCat] = await Promise.all([
+    getCategoryBySlug("news"),
+    getCategoryBySlug("exhibits"),
+    getCategoryBySlug("events"),
   ]);
 
-  const sliderIds = new Set(sliderPosts.map(p => p.id));
-  const filteredLatest = latest.filter(p => !sliderIds.has(p.id));
+   console.log("HOME newsCat:", newsCat);
+  console.log("HOME exhibitsCat:", exhibitsCat);
+  console.log("HOME eventsCat:", eventsCat);
 
+  const allowedCatIds = [newsCat?.id, exhibitsCat?.id, eventsCat?.id].filter(
+    (n): n is number => typeof n === "number"
+  );
 
+  const latest =
+    allowedCatIds.length > 0
+      ? await getPosts({
+          per_page: 6,
+          categories: allowedCatIds, // only News/Exhibits/Events
+          ...(profilePic?.id ? { exclude: profilePic.id } : {}),
+        })
+      : [];
 
-  const sliderItems = sliderPosts
-    .map((p) => {
-      const media = (p as any)?._embedded?.["wp:featuredmedia"]?.[0];
-      const src = media?.source_url as string | undefined;
-      const width = media?.media_details?.width as number | undefined;
-      const height = media?.media_details?.height as number | undefined;
-
-      if (!src || !width || !height) return null;
-
-      return {
-        id: p.id,
-        src,
-        width,
-        height,
-        alt: stripHtml(p.title.rendered) || "Museum image",
-      };
-    })
-    .filter(Boolean) as any[];
+  // Debug (terminal)
+  console.log("HOMEPAGE sliderUrls:", sliderUrls);
+  console.log("HOMEPAGE sliderIntervalMs:", sliderIntervalMs);
+  console.log("HOMEPAGE allowedCatIds:", allowedCatIds);
 
   return (
     <main>
@@ -80,22 +89,23 @@ export default async function Home() {
 
           {sliderItems.length > 0 && (
             <div className="mx-auto w-full max-w-5xl">
-              <ImageCarousel items={sliderItems} intervalMs={7000} />
+              <ImageCarousel items={sliderItems} intervalMs={sliderIntervalMs} />
             </div>
           )}
         </div>
       </section>
 
       <section className="bg-[#eaf0db]">
-        <div className="mx-auto max-w-7xl px-4 pt-16 pb-10">
+        <div className="mx-20 max-w-8xl px-4 pt-16 pb-10">
           <h2 className="text-2xl text-black font-semibold">Latest Updates</h2>
 
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {filteredLatest.slice(0, 3).map((p) => (
+            {latest.slice(0, 3).map((p) => (
               <PostCard key={p.id} post={p} />
             ))}
           </div>
         </div>
+
         <ExploreTiles />
         <PlanVisit />
       </section>
