@@ -38,10 +38,6 @@ export default async function Home() {
     getCategoryBySlug("events"),
   ]);
 
-   console.log("HOME newsCat:", newsCat);
-  console.log("HOME exhibitsCat:", exhibitsCat);
-  console.log("HOME eventsCat:", eventsCat);
-
   const allowedCatIds = [newsCat?.id, exhibitsCat?.id, eventsCat?.id].filter(
     (n): n is number => typeof n === "number"
   );
@@ -54,11 +50,6 @@ export default async function Home() {
           ...(profilePic?.id ? { exclude: profilePic.id } : {}),
         })
       : [];
-
-  // Debug (terminal)
-  console.log("HOMEPAGE sliderUrls:", sliderUrls);
-  console.log("HOMEPAGE sliderIntervalMs:", sliderIntervalMs);
-  console.log("HOMEPAGE allowedCatIds:", allowedCatIds);
 
   return (
     <main>
@@ -96,7 +87,7 @@ export default async function Home() {
       </section>
 
       <section className="bg-[#eaf0db]">
-        <div className="mx-20 max-w-8xl px-4 pt-16 pb-10">
+        <div className="mx-auto max-w-8xl px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-10">
           <h2 className="text-2xl text-black font-semibold">Latest Updates</h2>
 
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
