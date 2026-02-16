@@ -11,9 +11,19 @@ export default function PageShell({
   bg?: string;
 }) {
   return (
-    <div className={`min-h-screen ${bg}`}>
+    <div className={bg}>
       <main
-        className={`mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 py-10 ${className}`}
+        className={[
+          "w-full",
+          "px-4",        // mobile
+          "sm:px-6",     // small screens
+          "md:px-10",    // tablets
+          "lg:px-16",    // desktop
+          "xl:px-20",    // large desktop
+          "2xl:px-24",   // ultra-wide
+          "py-10",
+          className,
+        ].join(" ")}
       >
         {children}
       </main>
