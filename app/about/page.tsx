@@ -118,7 +118,7 @@ export default async function AboutPage() {
       {/* Key fix: PageShell should already center content; keep its padding responsive */}
       <PageShell className="py-10 md:py-14">
         {/* Intro + Mission */}
-        <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
+        <div className="grid gap-10 lg:items-start">
           <div>
             <h2 className="text-[#7a1630] text-4xl sm:text-5xl lg:text-6xl font-light tracking-tight">
               {heroTitle}
@@ -131,22 +131,24 @@ export default async function AboutPage() {
             </div>
           </div>
 
-          <div className="rounded-3xl bg-white/60 ring-1 ring-black/5 p-6 sm:p-8">
-            <p className="text-sm font-semibold text-black">Mission</p>
+            <h2 className="text-[#7a1630] text-4xl sm:text-5xl lg:text-6xl font-light tracking-tight">
+              Mission
+            </h2>            
             <p className="mt-3 text-black/75 leading-relaxed text-base sm:text-lg">
               {mission}
             </p>
-          </div>
+          
         </div>
 
         {/* Core Values (ribbons) */}
         <div className="mt-14">
-          <h3 className="text-[#7a1630] text-3xl sm:text-4xl font-light tracking-tight">
+          <h3 className="text-[#7a1630] text-3xl sm:text-4xl font-light tracking-tight text-center">
             {coreValuesTitle}
           </h3>
 
-          <div className="mt-6 space-y-6">
-            {coreValues.map((v, i) => {
+          <div className="mt-6 space-y-6 -mx-4 sm:-mx-6 lg:-mx-8">
+            <div className="space-y-6">
+              {coreValues.map((v, i) => {
               const side = i % 2 === 0 ? "left" : "right";
               const idx = Math.max(0, (v.imageIndex ?? i + 1) - 1);
               const imageUrl = contentImages[idx] ?? null;
@@ -161,6 +163,7 @@ export default async function AboutPage() {
                 />
               );
             })}
+            </div>
           </div>
         </div>
 
