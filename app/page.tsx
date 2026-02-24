@@ -1,9 +1,8 @@
 import ImageCarousel from "@/app/components/ImageCarousel";
-import PostCard from "@/app/components/PostCard";
 import ExploreTiles from "@/app/components/ExploreTiles";
 import PlanVisit from "@/app/components/PlanYourVisit";
 import Image from "next/image";
-
+import FacebookFeed from "./components/FacebookPageEmbed";
 import { getPosts, getCategoryBySlug, getPostBySlug } from "@/app/lib/wp";
 import { extractAllImageUrlsFromRenderedHtml } from "@/app/lib/wpGalleryUrls";
 import { extractJsonFromWpHtml, asNumber } from "@/app/lib/wpjson";
@@ -88,12 +87,12 @@ export default async function Home() {
 
       <section className="bg-[#eaf0db]">
         <div className="mx-auto max-w-8xl px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-10">
-          <h2 className="text-2xl text-black font-semibold">Latest Updates</h2>
+          <h2 className="text-2xl text-black font-semibold text-center">Latest Updates</h2>
 
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {latest.slice(0, 3).map((p) => (
-              <PostCard key={p.id} post={p} />
-            ))}
+          <div className="mt-8">
+            <div className="mx-auto w-full max-w-[500px] rounded-2xl bg-white shadow-sm overflow-hidden">
+              <FacebookFeed limit={4} />
+            </div>
           </div>
         </div>
 

@@ -6,7 +6,6 @@ export default function VisitInfoCard({
   hoursLines,
   admissionLines,
   addressLines,
-  phone,
   email,
   parkingLines,
   accessibilityLines,
@@ -14,7 +13,6 @@ export default function VisitInfoCard({
   hoursLines: string[];
   admissionLines?: string[];
   addressLines: string[];
-  phone?: string;
   email?: string;
   parkingLines?: string[];
   accessibilityLines?: string[];
@@ -23,16 +21,9 @@ export default function VisitInfoCard({
     <SoftCard className="p-6 sm:p-7">
       <div className="grid gap-6 sm:grid-cols-2">
         <InfoBlock title="Hours" lines={hoursLines} />
-        <InfoBlock title="Admission" lines={admissionLines} />
         <InfoBlock title="Address" lines={addressLines} />
 
         <div className="space-y-4">
-          {!!phone && (
-            <div>
-              <p className="text-sm font-semibold text-black">Phone</p>
-              <p className="mt-2 text-black/80">{phone}</p>
-            </div>
-          )}
           {!!email && (
             <div>
               <p className="text-sm font-semibold text-black">Email</p>

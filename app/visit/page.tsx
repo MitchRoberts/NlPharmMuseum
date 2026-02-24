@@ -18,7 +18,6 @@ type VisitData = {
   hoursLines?: string[];
   admissionLines?: string[];
   addressLines?: string[];
-  phone?: string;
   email?: string;
   parkingLines?: string[];
   accessibilityLines?: string[];
@@ -36,7 +35,6 @@ function buildVisitData(renderedHtml: string): VisitData | null {
     hoursLines: asStringArray(obj.hoursLines ?? obj.hours),
     admissionLines: asStringArray(obj.admissionLines ?? obj.admission),
     addressLines: asStringArray(obj.addressLines ?? obj.address),
-    phone: asString(obj.phone),
     email: asString(obj.email),
     parkingLines: asStringArray(obj.parkingLines ?? obj.parking),
     accessibilityLines: asStringArray(obj.accessibilityLines ?? obj.accessibility),
@@ -120,7 +118,6 @@ export default async function VisitPage() {
               hoursLines={hoursLines}
               admissionLines={admissionLines}
               addressLines={addressLines}
-              phone={data.phone}
               email={data.email}
               parkingLines={data.parkingLines}
               accessibilityLines={data.accessibilityLines}

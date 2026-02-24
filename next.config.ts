@@ -14,6 +14,9 @@ const nextConfig = {
       { protocol: "https", hostname: "nlpharmacymuseum-dbjme.wordpress.com" },
       { protocol: "https", hostname: new URL(apiBase).hostname },
       { protocol: "https", hostname: "secure.gravatar.com" },
+      { protocol: "https", hostname: "scontent.fyyt1-1.fna.fbcdn.net" },
+      { protocol: "https", hostname: "scontent.xx.fbcdn.net" },
+      { protocol: "https", hostname: "**.fbcdn.net" },
     ],
   },
 };

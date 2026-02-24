@@ -6,7 +6,6 @@ export default function ContactInfo({
   getInTouchTitle,
   getInTouchText,
   email,
-  phone,
   addressLines,
   hoursLines,
   directionsUrl,
@@ -15,7 +14,6 @@ export default function ContactInfo({
   getInTouchTitle: string;
   getInTouchText: string;
   email?: string;
-  phone?: string;
   addressLines: string[];
   hoursLines?: string[];
   directionsUrl: string;
@@ -36,12 +34,6 @@ export default function ContactInfo({
       </p>
 
       <div className="mt-6 space-y-4 text-black/80">
-        {!!phone && (
-          <div>
-            <p className="text-sm font-semibold text-black">Phone</p>
-            <p className="mt-1">{phone}</p>
-          </div>
-        )}
 
         {!!email && (
           <div>

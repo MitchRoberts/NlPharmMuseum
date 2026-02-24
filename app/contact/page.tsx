@@ -13,22 +13,14 @@ export const dynamic = "force-dynamic";
 
 type ContactData = {
   heroTitle?: string;
-
   connectTitle?: string;
   connectText?: string;
-
   getInTouchTitle?: string;
   getInTouchText?: string;
-
   email?: string;
-  phone?: string;
-
   addressLines?: string[];
   hoursLines?: string[];
-
   directionsUrl?: string;
-
-  // 1-based index: 1 = first image found in content
   heroGalleryIndex?: number;
 };
 
@@ -46,7 +38,6 @@ function buildContactData(renderedHtml: string): ContactData | null {
     getInTouchText: asString(obj.getInTouchText),
 
     email: asString(obj.email),
-    phone: asString(obj.phone),
 
     addressLines: asStringArray(obj.addressLines ?? obj.address),
     hoursLines: asStringArray(obj.hoursLines ?? obj.hours),
@@ -90,7 +81,6 @@ export default async function ContactPage() {
     "Have a question, idea, or just want to connect? Reach out to us using the contact information below.";
 
   const email = contact.email || "";
-  const phone = contact.phone || "";
 
   const addressLines =
     contact.addressLines?.length
@@ -127,7 +117,6 @@ export default async function ContactPage() {
                 getInTouchTitle={getInTouchTitle}
                 getInTouchText={getInTouchText}
                 email={email || undefined}
-                phone={phone || undefined}
                 addressLines={addressLines}
                 hoursLines={hoursLines}
                 directionsUrl={directionsUrl}

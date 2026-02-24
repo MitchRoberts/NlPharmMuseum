@@ -21,8 +21,7 @@ export default function Footer() {
                 className="underline hover:text-white"
               >
                 hello@nlpharmacymuseum.ca
-              </a><br />
-              Registered Charity CRA No. 768787301RR0001
+              </a>
             </p>
           </div>
 
@@ -34,8 +33,6 @@ export default function Footer() {
             <p className="text-sm leading-relaxed text-white/80">
               Seasonally May to October<br />
               Wed-Sun: 10:00am - 4:00pm<br />
-              <br />
-              Admission is free of charge.
             </p>
           </div>
 
@@ -76,8 +73,15 @@ export default function Footer() {
 
         {/* bottom line */}
         <div className="mt-12 border-t border-white/20 pt-6 text-sm text-white/60">
-          © {new Date().getFullYear()} Newfoundland & Labrador Pharmacy Museum
-        </div>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <span>
+              © {new Date().getFullYear()} Newfoundland & Labrador Pharmacy Museum
+            </span>
+            <span>
+              Registered Charity CRA No. 768787301RR0001
+            </span>
+          </div>
+        </div>  
       </div>
     </footer>
   );
