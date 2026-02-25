@@ -1,5 +1,4 @@
 // app/collections/page.tsx
-import Image from "next/image";
 import { notFound } from "next/navigation";
 
 import { getPostBySlug } from "@/app/lib/wp";
@@ -13,15 +12,11 @@ import {
   asNumber,
 } from "@/app/lib/wpjson";
 
-export const dynamic = "force-dynamic";
+import CollectionsMasonry, {
+  CollectionItem,
+} from "@/app/components/collections/CollectionsMasonry";
 
-type CollectionItem = {
-  title: string;
-  description: string[];
-  imageIndex?: number; // 1-based
-  alt?: string;
-  href?: string; // optional for later
-};
+export const dynamic = "force-dynamic";
 
 type CollectionsData = {
   heroTitle?: string;
@@ -48,54 +43,10 @@ function buildCollectionsData(renderedHtml: string): CollectionsData | null {
 
   return {
     heroTitle: asString((obj as any).heroTitle),
-    heroImageIndex: asNumber((obj as any).heroImageIndex), // ✅ new
+    heroImageIndex: asNumber((obj as any).heroImageIndex),
     intro: asStringArray((obj as any).intro),
     collections: collections.length ? collections : undefined,
   };
-}
-
-function CollectionCard({
-  title,
-  description,
-  imageUrl,
-  alt,
-}: {
-  title: string;
-  description: string[];
-  imageUrl?: string | null;
-  alt?: string;
-}) {
-  return (
-    <div className="rounded-2xl overflow-hidden bg-white/60 backdrop-blur ring-1 ring-black/10 shadow-sm hover:shadow-md transition">
-      <div className="relative w-full aspect-[16/10] bg-white">
-  {imageUrl ? (
-    <Image
-      src={imageUrl}
-      alt={alt || title}
-      fill
-      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-      className="object-contain p-3"
-    />
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center text-xs text-black/40">
-            No image
-          </div>
-        )}
-      </div>
-
-      <div className="p-5">
-        <h3 className="text-base sm:text-lg font-semibold tracking-tight text-black">
-          {title}
-        </h3>
-
-        <div className="mt-3 space-y-3 text-sm leading-relaxed text-black/70">
-          {description.map((p, i) => (
-            <p key={i}>{p}</p>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
 }
 
 export default async function CollectionsPage() {
@@ -142,23 +93,7 @@ export default async function CollectionsPage() {
           )}
         </div>
 
-        <div className="mt-10 columns-1 sm:columns-2 lg:columns-3 gap-5 [column-fill:_balance]">
-          {collections.map((c, i) => {
-            const idx = Math.max(0, (c.imageIndex ?? i + 1) - 1);
-            const imageUrl = contentImages[idx] ?? null;
-
-            return (
-              <div key={`${c.title}-${i}`} className="mb-5 break-inside-avoid">
-                <CollectionCard
-                  title={c.title}
-                  description={c.description}
-                  imageUrl={imageUrl}
-                  alt={c.alt}
-                />
-              </div>
-            );
-          })}
-        </div>
+        <CollectionsMasonry items={collections} images={contentImages} />
       </PageShell>
     </div>
   );
