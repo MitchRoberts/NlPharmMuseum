@@ -122,7 +122,7 @@ export default function PlanVisit() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-sm font-medium text-black/80 underline underline-offset-4 hover:text-black"
                 >
-                  Get directions <span aria-hidden="true">↗</span>
+                  Get directions
                 </a>
               </div>
             </div>

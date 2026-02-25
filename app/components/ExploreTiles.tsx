@@ -83,9 +83,6 @@ export default function ExploreTiles() {
                   <span className="underline underline-offset-4 decoration-black/30 group-hover:decoration-black/60 transition-colors">
                     Learn more
                   </span>
-                  <span className="text-black/60 group-hover:translate-x-0.5 transition-transform">
-                    ↗
-                  </span>
                 </div>
               </div>
 

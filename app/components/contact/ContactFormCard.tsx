@@ -38,13 +38,13 @@ export default function ContactFormCard() {
           <input
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
-            className="w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-black/10"
+            className="text-black w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-black/10"
             placeholder="First name"
           />
           <input
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
-            className="w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-black/10"
+            className="text-black w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-black/10"
             placeholder="Last name"
           />
         </div>
@@ -52,7 +52,7 @@ export default function ContactFormCard() {
         <input
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-black/10"
+          className="text-black w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-black/10"
           placeholder="Email"
           inputMode="email"
         />
@@ -60,7 +60,7 @@ export default function ContactFormCard() {
         <textarea
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          className="min-h-[130px] w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-black/10"
+          className="text-black min-h-[130px] w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-black/10"
           placeholder="Message"
         />
 
