@@ -89,9 +89,9 @@ export default async function Home() {
         <div className="mx-auto max-w-8xl px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-10">
           <h2 className="text-2xl text-black font-semibold text-center">Latest Updates</h2>
 
-          <div className="mt-8">
-            <div className="mx-auto w-full max-w-[500px] rounded-2xl bg-white shadow-sm overflow-hidden">
-              <FacebookFeed limit={4} />
+          <div className="mt-6">
+            <div className="mx-auto w-full">
+              <FacebookFeed limit={6} />
             </div>
           </div>
         </div>
