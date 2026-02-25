@@ -23,8 +23,7 @@ const NAV_ITEMS: NavLink[] = [
   },
 
   { label: "Contact", href: "/contact" },
-  { label: "Exhibits", href: "/exhibits" },
-  { label: "Events", href: "/events" },
+  { label: "Collections", href: "/collections" },
 ];
 
 function useClickOutside<T extends HTMLElement>(onOutside: () => void) {

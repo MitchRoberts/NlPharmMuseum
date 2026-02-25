@@ -141,7 +141,7 @@ export default function FacebookFeedCarouselClient({ posts }: { posts: FBPost[] 
                       rel="noreferrer"
                       className="inline-flex items-center justify-center rounded-xl border border-black/10 px-4 py-2 text-sm font-medium text-black/80 transition hover:bg-black/[0.03]"
                     >
-                      View <span className="ml-2 text-black/40">↗</span>
+                      View more
                     </Link>
                   </div>
                 </div>

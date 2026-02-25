@@ -52,8 +52,13 @@ export default async function Home() {
 
   return (
     <main>
+      {/* HERO */}
       <section className="bg-[#f2f6e9]">
-        <div className="mx-auto max-w-6xl px-4 py-12 md:py-18 flex flex-col items-center">
+        <div className="pointer-events-none absolute inset-0 opacity-[0.35]">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,0,0,0.20),transparent_55%)]" />
+        </div>
+        
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 md:py-18 flex flex-col items-center">
           <div className="max-w-3xl text-center">
             {logoUrl ? (
               <Image
@@ -78,7 +83,7 @@ export default async function Home() {
           </div>
 
           {sliderItems.length > 0 && (
-            <div className="mx-auto w-full max-w-5xl">
+            <div className="mt-10 w-full max-w-6xl">
               <ImageCarousel items={sliderItems} intervalMs={sliderIntervalMs} />
             </div>
           )}
@@ -86,19 +91,24 @@ export default async function Home() {
       </section>
 
       <section className="bg-[#eaf0db]">
-        <div className="mx-auto max-w-8xl px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-10">
-          <h2 className="text-2xl text-black font-semibold text-center">Latest Updates</h2>
+        {/* Latest Updates — wider */}
+        <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-10">
+          <h2 className="text-2xl text-black font-semibold text-center">
+            Latest Updates
+          </h2>
 
-          <div className="mt-6">
-            <div className="mx-auto w-full">
-              <FacebookFeed limit={6} />
-            </div>
+          <div className="mt-4">
+            <FacebookFeed limit={6} />
           </div>
         </div>
 
-        <ExploreTiles />
-        <PlanVisit />
+        {/* Tiles + PlanVisit — constrained for readability */}
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <ExploreTiles />
+          <PlanVisit />
+        </div>
       </section>
     </main>
   );
 }
+
