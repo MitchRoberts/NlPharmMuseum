@@ -299,3 +299,14 @@ body {
     margin-bottom: 0 !important;
   }
 }
+
+/* react-masonry-css layout */
+.masonry-js {
+  display: flex;
+  margin-left: -1.25rem; /* gutter */
+  width: auto;
+}
+.masonry-js-col {
+  padding-left: 1.25rem; /* gutter */
+  background-clip: padding-box;
+}
