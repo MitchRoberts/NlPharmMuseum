@@ -13,7 +13,7 @@ export default function CollectionCard({
   alt?: string;
 }) {
   return (
-    <div className="rounded-2xl overflow-hidden bg-white/60 backdrop-blur ring-1 ring-black/10 shadow-sm hover:shadow-md transition">
+    <div className="rounded-2xl overflow-hidden bg-white/70 ring-1 ring-black/10 shadow-sm hover:shadow-md transition">
       <div className="bg-white">
         <div className="relative w-full">
           {imageUrl ? (
