@@ -56,9 +56,9 @@ export default function PlanVisit() {
               </h3>
 
               <div className="mt-4 rounded-2xl bg-white ring-1 ring-black/10 p-4">
-                <p className="text-sm text-black/60">Apothecary Hall</p>
+                <p className="text-sm text-black/60">Newfoundland and Labrador Pharmacy Museum</p>
                 <p className="mt-1 text-sm font-semibold text-black leading-relaxed">
-                  488 Water St.
+                  Apothecary Hall, 488 Water St.
                   <br />
                   St. John's, NL A1E 1B3
                 </p>
@@ -79,7 +79,7 @@ export default function PlanVisit() {
                 </Link>
 
                 <a
-                  href="https://www.google.com/maps/dir/?api=1&destination=Apothecary%20Hall%2C%20488%20Water%20St%2C%20St.%20John%27s%2C%20NL%20A1E%201B3"
+                  href="https://www.google.com/maps/dir/?api=1&destination=Newfoundland+%26+Labrador+Pharmacy+Museum,+488+Water+St,+St.+John%27s,+NL+A1E+1B3"
                   target="_blank"
                   rel="noopener noreferrer"
                   className={[
@@ -106,7 +106,7 @@ export default function PlanVisit() {
               <div className="mt-4 overflow-hidden rounded-2xl ring-1 ring-black/10 bg-white">
                 <div className="relative w-full aspect-[4/3] sm:aspect-[16/9]">
                   <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2692.603419459551!2d-52.71585182257984!3d47.5560467914656!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4b0ca3685c3441d7%3A0x3259b1431a445095!2sApothecary%20Hall!5e0!3m2!1sen!2sca!4v1771020649315!5m2!1sen!2sca"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5385.212706394297!2d-52.713152699999995!3d47.5559897!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4b0ca3af5599226d%3A0x522d1adbf95caa2f!2sNewfoundland%20%26%20Labrador%20Pharmacy%20Museum!5e0!3m2!1sen!2sca!4v1772129805273!5m2!1sen!2sca"
                     className="absolute inset-0 h-full w-full border-0"
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
@@ -117,7 +117,7 @@ export default function PlanVisit() {
 
               <div className="mt-4">
                 <a
-                  href="https://www.google.com/maps/dir/?api=1&destination=Apothecary%20Hall%2C%20488%20Water%20St%2C%20St.%20John%27s%2C%20NL%20A1E%201B3"
+                  href="https://www.google.com/maps/dir/?api=1&destination=Newfoundland+%26+Labrador+Pharmacy+Museum,+488+Water+St,+St.+John%27s,+NL+A1E+1B3"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-sm font-medium text-black/80 underline underline-offset-4 hover:text-black"

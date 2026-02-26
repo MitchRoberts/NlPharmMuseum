@@ -28,12 +28,10 @@ const clamp3 =
   "[display:-webkit-box] [-webkit-line-clamp:3] [-webkit-box-orient:vertical] overflow-hidden";
 
 export default function FacebookFeedCarouselClient({ posts }: { posts: FBPost[] }) {
-  // Ensure exactly up to 6
   const slides = useMemo(() => (Array.isArray(posts) ? posts.slice(0, 6) : []), [posts]);
 
   const PAGE_SIZE = 3;
   const pageCount = Math.max(1, Math.ceil(slides.length / PAGE_SIZE));
-
   const [page, setPage] = useState(0);
 
   const canPrev = page > 0;
@@ -49,7 +47,6 @@ export default function FacebookFeedCarouselClient({ posts }: { posts: FBPost[] 
     setPage((p) => Math.min(pageCount - 1, p + 1));
   };
 
-  // current page items
   const start = page * PAGE_SIZE;
   const visible = slides.slice(start, start + PAGE_SIZE);
 
@@ -57,11 +54,10 @@ export default function FacebookFeedCarouselClient({ posts }: { posts: FBPost[] 
 
   return (
     <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-      {/* Frame */}
       <div className="relative mt-3">
-        {/* swipe/drag layer */}
+        {/* Drag/swipe is on the row now (no overlay blocking clicks) */}
         <motion.div
-          className="absolute inset-0 z-10"
+          key={page}
           drag="x"
           dragConstraints={{ left: 0, right: 0 }}
           dragElastic={0.12}
@@ -69,7 +65,6 @@ export default function FacebookFeedCarouselClient({ posts }: { posts: FBPost[] 
             const offsetX = info.offset.x;
             const velocityX = info.velocity.x;
 
-            // tuned for “page swipe”
             const swipeThreshold = 120;
             const velocityThreshold = 500;
 
@@ -83,17 +78,11 @@ export default function FacebookFeedCarouselClient({ posts }: { posts: FBPost[] 
             }
           }}
           style={{ touchAction: "pan-y" }}
-          aria-label="Swipe posts"
-        />
-
-        {/* Cards row (no wrap, 3 columns) */}
-        <motion.div
-          key={page}
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -40 }}
           transition={{ type: "spring", stiffness: 260, damping: 28, mass: 0.9 }}
-          className="grid gap-4 md:grid-cols-3"
+          className="grid gap-4 md:grid-cols-3 items-stretch"
         >
           {visible.map((p) => {
             const msg = (p.message ?? "").trim();
@@ -103,46 +92,60 @@ export default function FacebookFeedCarouselClient({ posts }: { posts: FBPost[] 
             return (
               <article
                 key={p.id}
-                className="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/5"
+                className="relative flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/5"
               >
-                {/* image */}
-                {p.full_picture ? (
-                  <div className="relative  h-48 w-full bg-black/5">
-                    <Image
-                      src={p.full_picture}
-                      alt=""
-                      fill
-                      className="object-cover"
-                      sizes="(min-width: 768px) 33vw, 100vw"
-                    />
-                  </div>
-                ) : (
-                  <div className="h-48 w-full bg-black/5" />
-                )}
+                {/* Full-card clickable overlay link */}
+                <Link
+                  href={href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="absolute inset-0 z-0"
+                  aria-label="Open Facebook post"
+                />
 
-                {/* content */}
-                <div className="flex flex-col p-4">
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="inline-flex items-center gap-2 rounded-full bg-[#1877F2]/10 px-3 py-1 text-xs font-medium text-[#1877F2]">
-                      <span className="h-2 w-2 rounded-full bg-[#1877F2]" />
-                      Facebook
-                    </span>
-                    {date ? <time className="text-xs text-black/45">{date}</time> : null}
-                  </div>
+                {/* Everything visible should be above the overlay link */}
+                <div className="relative z-10 flex h-full flex-col">
+                  {/* image */}
+                  {p.full_picture ? (
+                    <div className="relative h-48 w-full bg-black/5">
+                      <Image
+                        src={p.full_picture}
+                        alt=""
+                        fill
+                        className="object-cover"
+                        sizes="(min-width: 768px) 33vw, 100vw"
+                      />
+                    </div>
+                  ) : (
+                    <div className="h-48 w-full bg-black/5" />
+                  )}
 
-                  <p className={`mt-3 text-sm leading-relaxed text-black/80 ${clamp3}`}>
-                    {msg || "View post on Facebook."}
-                  </p>
+                  {/* content */}
+                  <div className="flex flex-1 flex-col p-4">
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="inline-flex items-center gap-2 rounded-full bg-[#1877F2]/10 px-3 py-1 text-xs font-medium text-[#1877F2]">
+                        <span className="h-2 w-2 rounded-full bg-[#1877F2]" />
+                        Facebook
+                      </span>
+                      {date ? <time className="text-xs text-black/45">{date}</time> : null}
+                    </div>
 
-                  <div className="mt-4">
-                    <Link
-                      href={href}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center justify-center rounded-xl border border-black/10 px-4 py-2 text-sm font-medium text-black/80 transition hover:bg-black/[0.03]"
-                    >
-                      View more
-                    </Link>
+                    <p className={`mt-3 text-sm leading-relaxed text-black/80 ${clamp3}`}>
+                      {msg || "View post on Facebook."}
+                    </p>
+
+                    {/* Push button to bottom so all align */}
+                    <div className="mt-auto pt-4">
+                      <Link
+                        href={href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center justify-center rounded-xl border border-black/10 px-4 py-2 text-sm font-medium text-black/80 transition hover:bg-black/[0.03]"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        View more
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </article>
@@ -173,6 +176,7 @@ export default function FacebookFeedCarouselClient({ posts }: { posts: FBPost[] 
           ›
         </button>
       </div>
+
       <div className="mt-3" />
     </div>
   );

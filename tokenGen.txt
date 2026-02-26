@@ -1,0 +1,3 @@
+Go through the normal process of generating a token for the system user, get teh same permissions,
+Then just go to https://graph.facebook.com/v25.0/me/accounts?access_token= and paste the token at
+the end of the = sign and copy the page access token from there in the env variables

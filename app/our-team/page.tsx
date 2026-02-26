@@ -1,109 +1,126 @@
-import Image from "next/image";
-import { getPostsByCategorySlug, stripHtml, WPPost } from "@/app/lib/wp";
+// app/team/page.tsx
+import { notFound } from "next/navigation";
+import { getPostBySlug } from "@/app/lib/wp";
+import PageShell from "@/app/components/PageShell";
+import TwoCol from "@/app/components/TwoCol";
+import HeroBanner from "@/app/components/HeroBanner";
+import { extractAllImageUrlsFromRenderedHtml } from "@/app/lib/wpGalleryUrls";
+import { extractJsonFromWpHtml, asString, asStringArray, asNumber } from "@/app/lib/wpjson";
 
-function getRole(p: WPPost) {
-  // We are using EXCERPT as the role/title (no plugins needed)
-  const roleHtml = p.excerpt?.rendered ? p.excerpt.rendered : "";
-  const role = stripHtml(roleHtml);
-  return role;
+export const dynamic = "force-dynamic";
+
+type TeamData = {
+  heroTitle?: string;
+  heroGalleryIndex?: number;
+  heroObjectPosition?: string;
+
+  leftTitle?: string;
+  leftLines?: string[];
+
+  rightTitle?: string;
+  rightLines?: string[];
+};
+
+function buildTeamData(renderedHtml: string): TeamData | null {
+  const obj = extractJsonFromWpHtml(renderedHtml);
+  if (!obj || typeof obj !== "object") return null;
+
+  const leftLines =
+    asStringArray((obj as any).leftLines) ??
+    asStringArray((obj as any).boardLines) ??
+    asStringArray((obj as any).board);
+
+  const rightLines =
+    asStringArray((obj as any).rightLines) ??
+    asStringArray((obj as any).staffLines) ??
+    asStringArray((obj as any).staff);
+
+  return {
+    heroTitle: asString((obj as any).heroTitle),
+    heroGalleryIndex: asNumber((obj as any).heroGalleryIndex),
+    heroObjectPosition: asString((obj as any).heroObjectPosition),
+
+    leftTitle: asString((obj as any).leftTitle) ?? asString((obj as any).boardTitle),
+    leftLines,
+
+    rightTitle: asString((obj as any).rightTitle) ?? asString((obj as any).staffTitle),
+    rightLines,
+  };
 }
 
-function getBioHtml(p: WPPost) {
-  // We are using CONTENT as the bio (keeps WP formatting if they add paragraphs)
-  const html = p.content?.rendered ?? "";
-  // Strip totally empty content (sometimes WP gives "<p></p>" etc.)
-  const text = stripHtml(html);
-  return text ? html : "";
-}
+export default async function TeamPage() {
+  const post = await getPostBySlug("our-team");
+  if (!post) return notFound();
 
-export default async function OurTeamPage() {
-  // Pull team posts (category slug = "team")
-  const team = await getPostsByCategorySlug("team", 100);
+  const contentHtml = (post as any)?.content?.rendered?.trim() || "";
+  const excerptHtml = (post as any)?.excerpt?.rendered?.trim() || "";
+
+  const data = buildTeamData(contentHtml) ?? buildTeamData(excerptHtml) ?? {};
+
+  // all image URLs found in the WP content (gallery/img/srcset/etc.)
+  const contentImages = extractAllImageUrlsFromRenderedHtml(contentHtml);
+
+  // hero image selection by 1-based index from JSON
+  const oneBased = data.heroGalleryIndex ?? 1;
+  const idx = Math.max(0, oneBased - 1);
+
+  const heroUrl =
+    contentImages[idx] ??
+    (post as any)?.jetpack_featured_media_url ??
+    (post as any)?._embedded?.["wp:featuredmedia"]?.[0]?.source_url ??
+    null;
+
+  const heroTitle = data.heroTitle || "Our Team";
+
+  const leftTitle = data.leftTitle || "Board of Directors";
+  const leftLines = data.leftLines?.length ? data.leftLines : [];
+
+  const rightTitle = data.rightTitle || "Staff and Volunteers";
+  const rightLines = data.rightLines?.length ? data.rightLines : [];
 
   return (
-    <div className="min-h-screen bg-[#f2f6e9]">
-      <main className="mx-auto max-w-6xl px-4 py-12">
-        {/* Header */}
-        <div className="max-w-3xl">
-          <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-black">
-            Our Team
-          </h1>
+    <div className="bg-[#f2f6e9]">
+      <HeroBanner title={heroTitle.toUpperCase()} imageUrl={heroUrl} objectPosition={data.heroObjectPosition ?? "50% 50%"} />
 
-          <p className="mt-3 text-black/70 leading-relaxed">
-            The Newfoundland and Labrador Pharmacy Museum is operated by a small group of
-            volunteers dedicated to preserving and sharing the history and evolution of
-            trusted pharmacy practice in Newfoundland and Labrador.
-          </p>
-        </div>
+      <PageShell className="py-10 md:py-14">
+        <p className="my-5 text-black/70 leading-relaxed">
+          The Newfoundland and Labrador Pharmacy Museum is operated by a small group of
+          volunteers dedicated to preserving and sharing the history and evolution of
+          trusted pharmacy practice in Newfoundland and Labrador.
+        </p>
+        <TwoCol
+          left={
+            <section>
+              <h2 className="text-[#7a1630] text-5xl sm:text-6xl font-light tracking-tight">
+                {leftTitle}
+              </h2>
 
-        {/* Cards */}
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {team.map((member) => {
-            const name = stripHtml(member.title.rendered);
-            const role = getRole(member);
-            const bioHtml = getBioHtml(member);
+              {leftLines.length > 0 && (
+                <ul className="mt-6 space-y-3 text-black/75 text-base sm:text-lg">
+                  {leftLines.map((line, i) => (
+                    <li key={i}>{line}</li>
+                  ))}
+                </ul>
+              )}
+            </section>
+          }
+          right={
+            <section>
+              <h2 className="text-[#7a1630] text-5xl sm:text-6xl font-light tracking-tight">
+                {rightTitle}
+              </h2>
 
-            const img =
-              member.jetpack_featured_media_url ??
-              (member as any)?._embedded?.["wp:featuredmedia"]?.[0]?.source_url ??
-              null;
-
-            return (
-              <article
-                key={member.id}
-                className="group rounded-2xl bg-white shadow-sm ring-1 ring-black/5 overflow-hidden flex flex-col"
-              >
-                {/* Photo */}
-                <div className="relative aspect-[4/3] bg-black/5 overflow-hidden">
-                  {img ? (
-                    <Image
-                      src={img}
-                      alt={name}
-                      fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                    />
-                  ) : (
-                    <div className="absolute inset-0 flex items-center justify-center text-sm text-black/50">
-                      No photo
-                    </div>
-                  )}
-                </div>
-
-                {/* Text */}
-                <div className="p-5 flex-1 flex flex-col">
-                  <h2 className="text-base font-semibold text-black leading-snug">
-                    {name}
-                  </h2>
-
-                  {/* Role (excerpt) */}
-                  {role ? (
-                    <p className="mt-1 text-xs uppercase tracking-wide text-black/60">
-                      {role}
-                    </p>
-                  ) : null}
-
-                  {/* Bio (content) */}
-                  {bioHtml ? (
-                    <div
-                      className="mt-3 text-sm text-black/70 leading-relaxed wp-content"
-                      dangerouslySetInnerHTML={{ __html: bioHtml }}
-                    />
-                  ) : (
-                    // If no bio, keep spacing tidy (or remove entirely)
-                    <p className="mt-3 text-sm text-black/40 italic">
-                      {/* No bio provided */}
-                    </p>
-                  )}
-
-                  {/* Optional: subtle bottom spacing so cards feel balanced */}
-                  <div className="mt-auto pt-4" />
-                </div>
-              </article>
-            );
-          })}
-        </div>
-      </main>
+              {rightLines.length > 0 && (
+                <ul className="mt-6 space-y-3 text-black/75 text-base sm:text-lg">
+                  {rightLines.map((line, i) => (
+                    <li key={i}>{line}</li>
+                  ))}
+                </ul>
+              )}
+            </section>
+          }
+        />
+      </PageShell>
     </div>
   );
 }

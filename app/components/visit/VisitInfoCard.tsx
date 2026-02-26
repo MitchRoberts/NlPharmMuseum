@@ -27,7 +27,7 @@ export default function VisitInfoCard({
           {!!email && (
             <div>
               <p className="text-sm font-semibold text-black">Email</p>
-              <a className="mt-2 inline-block underline text-black/80" href={`mailto:${email}`}>
+              <a className="mt-2 inline-block underline text-black/80 break-all" href={`mailto:${email}`}>
                 {email}
               </a>
             </div>

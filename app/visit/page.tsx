@@ -77,7 +77,7 @@ export default async function VisitPage() {
 
   const mapEmbedUrl =
     data.mapEmbedUrl ||
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2692.603419459551!2d-52.71585182257984!3d47.5560467914656!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4b0ca3685c3441d7%3A0x3259b1431a445095!2sApothecary%20Hall!5e0!3m2!1sen!2sca!4v1771020649315!5m2!1sen!2sca";
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5385.212706394297!2d-52.713152699999995!3d47.5559897!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4b0ca3af5599226d%3A0x522d1adbf95caa2f!2sNewfoundland%20%26%20Labrador%20Pharmacy%20Museum!5e0!3m2!1sen!2sca!4v1772129805273!5m2!1sen!2sca";
 
   return (
     <div className="bg-[#f2f6e9]">

@@ -75,19 +75,9 @@ export default async function ContactPage() {
     contact.connectText ||
     "Whether you have a question about our exhibits, programs, collections, or opportunities to get involved, our team is here to help.";
 
-  const getInTouchTitle = contact.getInTouchTitle || "Get in Touch";
   const getInTouchText =
     contact.getInTouchText ||
     "Have a question, idea, or just want to connect? Reach out to us using the contact information below.";
-
-  const email = contact.email || "";
-
-  const addressLines =
-    contact.addressLines?.length
-      ? contact.addressLines
-      : ["Apothecary Hall", "488 Water St.", "St. John's, NL A1E 1B3"];
-
-  const hoursLines = contact.hoursLines?.length ? contact.hoursLines : [];
 
   const directionsUrl =
     contact.directionsUrl ||
@@ -95,6 +85,7 @@ export default async function ContactPage() {
 
   return (
     <div className="bg-[#f2f6e9]">
+      <div className="bg-[#f2f6e9]">
       <HeroBanner title={heroTitle.toUpperCase()} imageUrl={heroUrl} />
 
       <PageShell className="py-10 md:py-14">
@@ -102,29 +93,23 @@ export default async function ContactPage() {
           <h2 className="text-[#7a1630] text-4xl sm:text-5xl lg:text-6xl font-light tracking-tight">
             {connectTitle}
           </h2>
-
-          <h2 className="hidden lg:block text-[#7a1630] text-4xl sm:text-5xl lg:text-6xl font-light tracking-tight">
-            {getInTouchTitle}
-          </h2>
         </div>
 
         <div className="mt-10">
           <TwoCol
-            left={<ContactFormCard />}
-            right={
-              <ContactInfo
+            left={<ContactInfo
                 connectText={connectText}
-                getInTouchTitle={getInTouchTitle}
                 getInTouchText={getInTouchText}
-                email={email || undefined}
-                addressLines={addressLines}
-                hoursLines={hoursLines}
                 directionsUrl={directionsUrl}
-              />
+              />}
+            right={
+              <ContactFormCard />
             }
           />
         </div>
       </PageShell>
     </div>
+    </div>
+    
   );
 }

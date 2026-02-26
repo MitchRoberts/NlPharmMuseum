@@ -4,9 +4,11 @@ import Image from "next/image";
 export default function HeroBanner({
   title,
   imageUrl,
+  objectPosition = "50% 50%",
 }: {
   title: string;
   imageUrl?: string | null;
+  objectPosition?: string;
 }) {
   return (
     <section className="relative">
@@ -18,6 +20,7 @@ export default function HeroBanner({
               alt={title}
               fill
               className="object-cover"
+              style={{ objectPosition }}
               priority
               sizes="100vw"
             />
