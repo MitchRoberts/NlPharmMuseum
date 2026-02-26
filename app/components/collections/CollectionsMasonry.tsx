@@ -9,21 +9,15 @@ export type CollectionItem = {
   href?: string;
 };
 
-export default function CollectionsMasonry({
-  items,
-  images,
-}: {
-  items: CollectionItem[];
-  images: string[];
-}) {
+export default function CollectionsMasonry({ items, images }: { items: CollectionItem[]; images: string[] }) {
   return (
-    <div className="mt-10 columns-1 sm:columns-2 lg:columns-3 gap-5 [column-fill:_balance]">
+    <div className="mt-10 masonry">
       {items.map((c, i) => {
         const idx = Math.max(0, (c.imageIndex ?? i + 1) - 1);
         const imageUrl = images[idx] ?? null;
 
         return (
-          <div key={`${c.title}-${i}`} className="mb-5 break-inside-avoid">
+          <div key={`${c.title}-${i}`} className="masonry-item">
             <CollectionCard
               title={c.title}
               description={c.description}
