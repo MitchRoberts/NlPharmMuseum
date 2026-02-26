@@ -20,12 +20,11 @@ export default function CollectionsMasonry({
 }) {
   // Desktop masonry can still be your CSS columns if you want,
   // but simplest is: use JS masonry everywhere for consistency.
-  const breakpointColumnsObj = {
-    default: 3,
-    1024: 3,
-    640: 2,
-    0: 1,
-  };
+const breakpointColumnsObj = {
+  default: 3,
+  1024: 2,
+  640: 1,
+};
 
   return (
     <div className="mt-10">
