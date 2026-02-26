@@ -126,7 +126,7 @@ export default async function VisitPage() {
         />
 
         <VisitMapCard
-          addressLabel={addressLines.join(" — ")}
+          addressLabel={addressLines.join(" - ")}
           directionsUrl={directionsUrl}
           mapEmbedUrl={mapEmbedUrl}
         />

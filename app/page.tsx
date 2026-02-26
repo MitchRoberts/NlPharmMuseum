@@ -91,7 +91,7 @@ export default async function Home() {
       </section>
 
       <section className="bg-[#eaf0db]">
-        {/* Latest Updates — wider */}
+        {/* Latest Updates - wider */}
         <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-10">
           <h2 className="text-2xl text-black font-semibold text-center">
             Latest Updates
@@ -102,7 +102,7 @@ export default async function Home() {
           </div>
         </div>
 
-        {/* Tiles + PlanVisit — constrained for readability */}
+        {/* Tiles + PlanVisit - constrained for readability */}
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <ExploreTiles />
           <PlanVisit />

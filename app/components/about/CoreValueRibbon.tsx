@@ -104,7 +104,7 @@ export default function CoreValueRibbon({
             )}
             <div className="absolute inset-0 bg-black/35" />
 
-            {/* “paper” text panel — LEFT for left ribbons, RIGHT for right ribbons */}
+            {/* “paper” text panel - LEFT for left ribbons, RIGHT for right ribbons */}
             <div
               className={[
                 "absolute inset-y-0",

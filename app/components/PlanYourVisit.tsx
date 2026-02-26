@@ -19,7 +19,7 @@ export default function PlanVisit() {
                   Plan Your Visit
                 </h2>
                 <p className="mt-1 text-sm sm:text-base text-black/70">
-                  Hours, location, and directions—everything you need in one place.
+                  Hours, location, and directions-everything you need in one place.
                 </p>
               </div>
 
