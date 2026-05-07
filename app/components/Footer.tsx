@@ -31,8 +31,8 @@ export default function Footer() {
               Opening Hours
             </h3>
             <p className="text-sm leading-relaxed text-white/80">
-              Seasonally May to October<br />
-              Wed-Sun: 10:00am - 4:00pm<br />
+              Seasonal: May 15th to September 6th<br />
+              Tue-Sun: 10:00am - 5:00pm<br />
             </p>
           </div>
 
