@@ -34,14 +34,14 @@ export default function PlanVisit() {
             {/* Quick facts */}
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               <div className="rounded-2xl bg-black/[0.04] ring-1 ring-black/10 px-4 py-3">
-                <p className="text-xs font-semibold text-black/60">Season</p>
-                <p className="mt-1 text-sm font-semibold text-black">May - October</p>
+                <p className="text-xs font-semibold text-black/60">Seasonal</p>
+                <p className="mt-1 text-sm font-semibold text-black">May 15 - September 6</p>
               </div>
 
               <div className="rounded-2xl bg-black/[0.04] ring-1 ring-black/10 px-4 py-3">
                 <p className="text-xs font-semibold text-black/60">Hours</p>
                 <p className="mt-1 text-sm font-semibold text-black">
-                  Wed - Sun · 10:00 - 4:00
+                  Tue - Sun · 10:00am - 5:00pm
                 </p>
               </div>
             </div>
