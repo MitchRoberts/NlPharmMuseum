@@ -1,6 +1,14 @@
 import Link from "next/link";
+import { getPostBySlug } from "@/app/lib/wp";
+import { asString, extractJsonFromWpHtml } from "@/app/lib/wpjson";
 
-const tiles = [
+type ExploreTile = {
+  title: string;
+  href: string;
+  desc: string;
+};
+
+const baseTiles: ExploreTile[] = [
   {
     title: "Collections",
     href: "/collections",
@@ -18,7 +26,36 @@ const tiles = [
   },
 ];
 
-export default function ExploreTiles() {
+async function getTommyRickettsTile(): Promise<ExploreTile> {
+  const fallback = {
+    title: "Tommy Ricketts",
+    href: "/collections/tommy-ricketts",
+    desc: "Follow the story of Newfoundland and Labrador's soldier, pharmacist, and citizen.",
+  };
+
+  const post = await getPostBySlug("tommy-ricketts").catch(() => null);
+  const contentHtml = post?.content?.rendered?.trim() || "";
+  const excerptHtml = post?.excerpt?.rendered?.trim() || "";
+  const obj =
+    (extractJsonFromWpHtml(contentHtml) as Record<string, unknown> | null) ??
+    (extractJsonFromWpHtml(excerptHtml) as Record<string, unknown> | null);
+
+  if (!obj || typeof obj !== "object") return fallback;
+
+  return {
+    title: asString(obj.tileTitle) || asString(obj.heroTitle) || fallback.title,
+    href: asString(obj.tileHref) || fallback.href,
+    desc: asString(obj.tileDescription) || asString(obj.subtitle) || fallback.desc,
+  };
+}
+
+export default async function ExploreTiles() {
+  const tiles = [
+    baseTiles[0],
+    await getTommyRickettsTile(),
+    ...baseTiles.slice(1),
+  ];
+
   return (
     <section className="bg-[#eaf0db]">
       {/* Divider */}
@@ -36,7 +73,7 @@ export default function ExploreTiles() {
           </div>
         </div>
 
-        <div className="mt-8 grid gap-4 sm:gap-6 md:grid-cols-3">
+        <div className="mt-8 grid gap-4 sm:gap-6 md:grid-cols-2 xl:grid-cols-4">
           {tiles.map((t) => (
             <Link
               key={t.href}
