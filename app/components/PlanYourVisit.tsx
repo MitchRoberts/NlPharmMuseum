@@ -1,25 +1,25 @@
 import Link from "next/link";
+import { getMuseumInfo } from "@/app/lib/museumInfo";
 
-export default function PlanVisit() {
+export default async function PlanVisit() {
+  const info = await getMuseumInfo();
+
   return (
     <section className="bg-[#eaf0db]">
-      {/* Divider */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="border-t border-black/15 pt-6 mt-10" />
       </div>
 
-      {/* Content */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-12">
         <div className="mt-6 overflow-hidden rounded-3xl bg-white/70 backdrop-blur ring-1 ring-black/10 shadow-sm">
-          {/* Header */}
           <div className="px-6 sm:px-8 py-6 border-b border-black/10">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-black">
-                  Plan Your Visit
+                  {info.planTitle}
                 </h2>
                 <p className="mt-1 text-sm sm:text-base text-black/70">
-                  Hours, location, and directions-everything you need in one place.
+                  {info.planSubtitle}
                 </p>
               </div>
 
@@ -27,40 +27,46 @@ export default function PlanVisit() {
                 href="/visit"
                 className="text-sm font-medium text-black/70 hover:text-black underline underline-offset-4"
               >
-                View details
+                {info.planDetailsLabel}
               </Link>
             </div>
 
-            {/* Quick facts */}
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               <div className="rounded-2xl bg-black/[0.04] ring-1 ring-black/10 px-4 py-3">
-                <p className="text-xs font-semibold text-black/60">Seasonal</p>
-                <p className="mt-1 text-sm font-semibold text-black">May 15 - September 6</p>
+                <p className="text-xs font-semibold text-black/60">
+                  {info.seasonalLabel}
+                </p>
+                <p className="mt-1 text-sm font-semibold text-black">
+                  {info.seasonalText}
+                </p>
               </div>
 
               <div className="rounded-2xl bg-black/[0.04] ring-1 ring-black/10 px-4 py-3">
-                <p className="text-xs font-semibold text-black/60">Hours</p>
+                <p className="text-xs font-semibold text-black/60">
+                  {info.hoursLabel}
+                </p>
                 <p className="mt-1 text-sm font-semibold text-black">
-                  Tue - Sun · 10:00am - 5:00pm
+                  {info.hoursText}
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Body */}
           <div className="grid lg:grid-cols-2">
-            {/* Left */}
             <div className="px-6 sm:px-8 py-6">
               <h3 className="text-base sm:text-lg font-semibold text-black">
-                Location
+                {info.locationTitle}
               </h3>
 
               <div className="mt-4 rounded-2xl bg-white ring-1 ring-black/10 p-4">
-                <p className="text-sm text-black/60">Newfoundland and Labrador Pharmacy Museum</p>
+                <p className="text-sm text-black/60">{info.museumName}</p>
                 <p className="mt-1 text-sm font-semibold text-black leading-relaxed">
-                  Apothecary Hall, 488 Water St.
-                  <br />
-                  St. John's, NL A1E 1B3
+                  {info.addressLines.map((line, i) => (
+                    <span key={`${line}-${i}`}>
+                      {line}
+                      {i < info.addressLines.length - 1 && <br />}
+                    </span>
+                  ))}
                 </p>
               </div>
 
@@ -75,11 +81,11 @@ export default function PlanVisit() {
                     "focus:outline-none focus-visible:ring-2 focus-visible:ring-black/40",
                   ].join(" ")}
                 >
-                  Visit Info
+                  {info.visitInfoLabel}
                 </Link>
 
                 <a
-                  href="https://www.google.com/maps/dir/?api=1&destination=Newfoundland+%26+Labrador+Pharmacy+Museum,+488+Water+St,+St.+John%27s,+NL+A1E+1B3"
+                  href={info.directionsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={[
@@ -91,22 +97,20 @@ export default function PlanVisit() {
                     "focus:outline-none focus-visible:ring-2 focus-visible:ring-black/40",
                   ].join(" ")}
                 >
-                  Get Directions
+                  {info.directionsLabel}
                 </a>
               </div>
             </div>
 
-            {/* Right */}
             <div className="px-6 sm:px-8 py-6 lg:border-l border-black/10">
               <h3 className="text-base sm:text-lg font-semibold text-black">
-                Map
+                {info.mapTitle}
               </h3>
 
-              {/* tighter map container, less “empty” */}
               <div className="mt-4 overflow-hidden rounded-2xl ring-1 ring-black/10 bg-white">
                 <div className="relative w-full aspect-[4/3] sm:aspect-[16/9]">
                   <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5385.212706394297!2d-52.713152699999995!3d47.5559897!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4b0ca3af5599226d%3A0x522d1adbf95caa2f!2sNewfoundland%20%26%20Labrador%20Pharmacy%20Museum!5e0!3m2!1sen!2sca!4v1772129805273!5m2!1sen!2sca"
+                    src={info.mapEmbedUrl}
                     className="absolute inset-0 h-full w-full border-0"
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
@@ -117,12 +121,12 @@ export default function PlanVisit() {
 
               <div className="mt-4">
                 <a
-                  href="https://www.google.com/maps/dir/?api=1&destination=Newfoundland+%26+Labrador+Pharmacy+Museum,+488+Water+St,+St.+John%27s,+NL+A1E+1B3"
+                  href={info.directionsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-sm font-medium text-black/80 underline underline-offset-4 hover:text-black"
                 >
-                  Get directions
+                  {info.directionsLabel}
                 </a>
               </div>
             </div>
