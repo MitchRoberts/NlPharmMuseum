@@ -433,6 +433,16 @@ export default async function TommyRickettsPage() {
                             {data.qrCaption}
                           </figcaption>
                         )}
+                        {data.surveyUrl && (
+                          <Link
+                            href={data.surveyUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-1 block text-center text-xs font-semibold text-[#7a1630] underline underline-offset-4 hover:text-black"
+                          >
+                            {data.surveyButtonLabel || "Open survey"}
+                          </Link>
+                        )}
                       </figure>
                     )}
                   </div>
@@ -455,6 +465,16 @@ export default async function TommyRickettsPage() {
                     <figcaption className="mt-2 text-center text-xs font-medium leading-snug text-black/55">
                       {data.qrCaption}
                     </figcaption>
+                  )}
+                  {data.surveyUrl && (
+                    <Link
+                      href={data.surveyUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-1 block text-center text-xs font-semibold text-[#7a1630] underline underline-offset-4 hover:text-black"
+                    >
+                      {data.surveyButtonLabel || "Open survey"}
+                    </Link>
                   )}
                 </figure>
               )}
